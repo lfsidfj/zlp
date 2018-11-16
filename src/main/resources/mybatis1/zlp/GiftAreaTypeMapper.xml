@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GiftAreaTypeMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		zlp_giftarea_type
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		GIFTAREA_ID,	
+		GOODSTYPE_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{GIFTAREA_ID},	
+		#{GOODSTYPE_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="deleteByArea" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GIFTAREA_ID = #{GIFTAREA_ID}
+	</delete>
+	
+	<!-- 删除-->
+	<delete id="deleteByType" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GOODSTYPE_ID = #{GOODSTYPE_ID}
+	</delete>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			GIFTAREA_ID = #{GIFTAREA_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		t.GIFTAREA_ID,	
+		t.GOODSTYPE_ID,
+		t1.AREA_NAME,
+		t2.TYPE_NAME
+		from
+		zlp_giftarea_type t
+		LEFT JOIN zlp_giftarea t1 on t1.GIFTAREA_ID = t.GIFTAREA_ID
+		LEFT JOIN zlp_goods_type t2 on t2.GOODSTYPE_ID = t.GOODSTYPE_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
+				)
+		</if>
+		and GIFTAREA_ID = #{pd.GIFTAREA_ID}
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GIFTAREA_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	
+	<!-- 批量删除(通过商品类目类目) -->
+	<delete id="deleteAllByType" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GOODSTYPE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 列表(全部)(通过区域Id) -->
+	<select id="listAllByArea" parameterType="pd" resultType="pd">
+		select	
+			t.GOODSTYPE_ID,
+			t1.TYPE_NAME,
+			p.PATH
+		from
+		zlp_giftarea_type t
+			LEFT JOIN zlp_goods_type t1 on t1.GOODSTYPE_ID = t.GOODSTYPE_ID
+			LEFT JOIN tb_pictures p on t1.TYPE_IMAGE=p.PICTURES_ID
+		where 
+			1=1
+			<if test="GIFTAREA_ID!= null and GIFTAREA_ID != ''">
+			and t.GIFTAREA_ID = #{GIFTAREA_ID}
+			</if>
+	</select>
+	
+</mapper>

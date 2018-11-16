@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_ORDER
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		ORDER_ID,
+		TOTAL_AMOUNT,
+		GOODS_AMOUNT,
+		FREIGHT_AMOUNT,
+		DEDUCTION_AMOUNT,
+		INTEGRATION_AMOUNT,
+		REAL_PAY_AMOUNT,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+		AREA_ID,
+		DETAILS_ADDRESS,
+		ORDER_STATUS,
+		PAY_STATUS,
+		OUT_ORDER_ID,
+		USER_ID,
+		EXPRESS_NO,
+		EXPRESSCOMPANY_ID,
+		PAY_WAY,
+		PAY_TIME,
+		RECEIVER,
+		PHONE_NUMBER
+	</sql>
+		<!-- 带别名字段 -->
+	<sql id="FieldWithAlias">
+		o.ORDER_ID,
+		o.TOTAL_AMOUNT,
+		o.GOODS_AMOUNT,
+		o.FREIGHT_AMOUNT,
+		o.DEDUCTION_AMOUNT,
+		o.INTEGRATION_AMOUNT,
+		o.REAL_PAY_AMOUNT,
+		o.CREATE_DATE,
+		o.CREATE_USER,
+		o.UPDATE_DATE,
+		o.UPDATE_USER,
+		o.DELETE_STATUS,
+		o.AREA_ID,
+		o.DETAILS_ADDRESS,
+		o.ORDER_STATUS,
+		o.PAY_STATUS,
+		o.OUT_ORDER_ID,
+		o.USER_ID,
+		o.EXPRESS_NO,
+		o.EXPRESSCOMPANY_ID,
+		o.PAY_WAY,
+		o.PAY_TIME,
+		o.RECEIVER,
+		o.PHONE_NUMBER
+	</sql>
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{ORDER_ID},
+		#{TOTAL_AMOUNT},
+		#{GOODS_AMOUNT},
+		#{FREIGHT_AMOUNT},
+		#{DEDUCTION_AMOUNT},
+		#{INTEGRATION_AMOUNT},
+		#{REAL_PAY_AMOUNT},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{AREA_ID},
+		#{DETAILS_ADDRESS},
+		#{ORDER_STATUS},
+		#{PAY_STATUS},
+		#{OUT_ORDER_ID},
+		#{USER_ID},
+		#{EXPRESS_NO},
+		#{EXPRESSCOMPANY_ID},
+		#{PAY_WAY},
+		#{PAY_TIME},
+		#{RECEIVER},
+		#{PHONE_NUMBER}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			ORDER_ID = #{ORDER_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			ORDER_ID = #{ORDER_ID},
+			<if test="TOTAL_AMOUNT!= null and TOTAL_AMOUNT!= ''">
+			TOTAL_AMOUNT = #{TOTAL_AMOUNT},
+			</if>
+			<if test="GOODS_AMOUNT!= null and GOODS_AMOUNT!= ''">
+			GOODS_AMOUNT = #{GOODS_AMOUNT},
+			</if>
+			<if test="FREIGHT_AMOUNT!= null and FREIGHT_AMOUNT!= ''">
+			FREIGHT_AMOUNT = #{FREIGHT_AMOUNT},
+			</if>
+			<if test="DEDUCTION_AMOUNT!= null and DEDUCTION_AMOUNT!= ''">
+			DEDUCTION_AMOUNT = #{DEDUCTION_AMOUNT},
+			</if>
+			<if test="INTEGRATION_AMOUNT!= null and INTEGRATION_AMOUNT!= ''">
+			INTEGRATION_AMOUNT = #{INTEGRATION_AMOUNT},
+			</if>
+			<if test="REAL_PAY_AMOUNT!= null and REAL_PAY_AMOUNT!= ''">
+			REAL_PAY_AMOUNT = #{REAL_PAY_AMOUNT},
+			</if>
+			<if test="CREATE_DATE!= null and CREATE_DATE!= ''">
+			CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="CREATE_USER!= null and CREATE_USER!= ''">
+			CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="UPDATE_DATE!= null and UPDATE_DATE!= ''">
+			UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="DELETE_STATUS!= null and DELETE_STATUS!= ''">
+			DELETE_STATUS = #{DELETE_STATUS},
+			</if>
+			<if test="AREA_ID!= null and AREA_ID!= ''">
+			AREA_ID = #{AREA_ID},
+			</if>
+			<if test="DETAILS_ADDRESS!= null and DETAILS_ADDRESS!= ''">
+			DETAILS_ADDRESS = #{DETAILS_ADDRESS},
+			</if>
+			<if test="ORDER_STATUS!= null and ORDER_STATUS!= ''">
+			ORDER_STATUS = #{ORDER_STATUS},
+			</if>
+			<if test="PAY_STATUS!= null and PAY_STATUS!= ''">
+			PAY_STATUS = #{PAY_STATUS},
+			</if>
+			<if test="OUT_ORDER_ID!= null and OUT_ORDER_ID!= ''">
+			OUT_ORDER_ID = #{OUT_ORDER_ID},
+			</if>
+			<if test="USER_ID!= null and USER_ID!= ''">
+			USER_ID = #{USER_ID},
+			</if>
+			<if test="EXPRESS_NO!= null and EXPRESS_NO!= ''">
+			EXPRESS_NO = #{EXPRESS_NO},
+			</if>
+			<if test="EXPRESSCOMPANY_ID!= null and EXPRESSCOMPANY_ID!= ''">
+			EXPRESSCOMPANY_ID = #{EXPRESSCOMPANY_ID},
+			</if>
+			<if test="PAY_WAY!= null and PAY_WAY!= ''">
+			PAY_WAY = #{PAY_WAY},
+			</if>
+			<if test="PAY_TIME!= null and PAY_TIME!= ''">
+			PAY_TIME = #{PAY_TIME},
+			</if>
+			<if test="RECEIVER!= null and RECEIVER!= ''">
+			RECEIVER = #{RECEIVER},
+			</if>
+		ORDER_ID = ORDER_ID
+		where
+		ORDER_ID = #{ORDER_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="ORDER_ID!= null and ORDER_ID!= ''">
+		and ORDER_ID = #{ORDER_ID}
+		</if>
+		<if test="OUT_ORDER_ID!= null and OUT_ORDER_ID!= ''">
+		and OUT_ORDER_ID = #{OUT_ORDER_ID}
+		</if>
+		<if test="USER_ID!= null and USER_ID!= ''">
+		and USER_ID = #{USER_ID}
+		</if>
+	</select>
+	<!--DCWI 通过ID获取订单详情 -->
+	<select id="informationFindById" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		a1.FULL_NAME AS AREA,
+		a2.FULL_NAME AS CITY,
+		a3.FULL_NAME AS PROVINCE,
+		e.NAME as COMPANY_NAME
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_area a1 on o.AREA_ID = a1.AREA_ID
+		LEFT JOIN zlp_area a2 on a2.AREA_ID = a1.PARENT_ID
+		LEFT JOIN zlp_area a3 on a3.AREA_ID = a2.PARENT_ID
+		LEFT JOIN zlp_express_company e on o.EXPRESSCOMPANY_ID=e.EXPRESSCOMPANY_ID
+		where
+			ORDER_ID = #{ORDER_ID}
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		a1.FULL_NAME AS AREA,
+		a2.FULL_NAME AS CITY,
+		a3.FULL_NAME AS PROVINCE,
+		e.NAME as COMPANY_NAME
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_app_user p on o.USER_ID=p.USER_ID
+		LEFT JOIN zlp_area a1 on o.AREA_ID = a1.AREA_ID
+		LEFT JOIN zlp_area a2 on a2.AREA_ID = a1.PARENT_ID
+		LEFT JOIN zlp_area a3 on a3.AREA_ID = a2.PARENT_ID
+		LEFT JOIN zlp_express_company e on o.EXPRESSCOMPANY_ID=e.EXPRESSCOMPANY_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+					o.RECEIVER LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					e.NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					o.DETAILS_ADDRESS LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					or
+					p.PHONE_NUMBER LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.lastStart!= null and pd.lastStart != ''">
+			and  o.CREATE_DATE &gt;= #{pd.lastStart}
+		</if>
+		<if test="pd.lastEnd!= null and pd.lastEnd != ''">
+			and	TO_DAYS(o.CREATE_DATE) &lt;= TO_DAYS(#{pd.lastEnd})
+		</if>
+		<if test="pd.EXPRESSCOMPANY_ID!= null and pd.EXPRESSCOMPANY_ID != ''">
+			and  o.EXPRESSCOMPANY_ID = #{pd.EXPRESSCOMPANY_ID}
+		</if>
+		<if test="pd.PAY_STATUS!= null and pd.PAY_STATUS != ''">
+			and  o.PAY_STATUS = #{pd.PAY_STATUS}
+		</if>
+		<if test="pd.PAY_WAY!= null and pd.PAY_WAY != ''">
+			and  o.PAY_WAY = #{pd.PAY_WAY}
+		</if>
+		<if test="pd.ORDER_STATUS!= null and pd.ORDER_STATUS!= ''">
+			and  o.ORDER_STATUS = #{pd.ORDER_STATUS}
+		</if>
+		<if test="pd.DELETE_STATUS!= null">
+			and  o.DELETE_STATUS = #{pd.DELETE_STATUS}
+		</if>
+		<if test="pd.USER_ID!= null and pd.USER_ID!= ''">
+			and  o.USER_ID = #{pd.USER_ID}
+		</if>
+		order by o.CREATE_DATE DESC
+	</select>
+	<!--手机端用户查询自己订单 列表 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		select
+		ORDER_ID,CREATE_DATE,FREIGHT_AMOUNT,REAL_PAY_AMOUNT,ORDER_STATUS
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.ORDER_STATUS!= null">
+			and  ORDER_STATUS = #{pd.ORDER_STATUS}
+		</if>
+		<if test="pd.ORDER_STATUS1!= null and pd.ORDER_STATUS1!= ''">
+			and  (ORDER_STATUS=3 or ORDER_STATUS=4)
+		</if>
+		<if test="pd.USER_ID!= null and pd.USER_ID!= ''">
+			and  USER_ID = #{pd.USER_ID}
+		</if>
+		<if test="pd.DELETE_STATUS!= null">
+			and  DELETE_STATUS = #{pd.DELETE_STATUS}
+		</if>
+		order by CREATE_DATE DESC
+	</select>
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		a1.FULL_NAME AS AREA,
+		a2.FULL_NAME AS CITY,
+		a3.FULL_NAME AS PROVINCE,
+		e.NAME as COMPANY_NAME
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_app_user p on o.USER_ID=p.USER_ID
+		LEFT JOIN zlp_area a1 on o.AREA_ID = a1.AREA_ID
+		LEFT JOIN zlp_area a2 on a2.AREA_ID = a1.PARENT_ID
+		LEFT JOIN zlp_area a3 on a3.AREA_ID = a2.PARENT_ID
+		LEFT JOIN zlp_express_company e on o.EXPRESSCOMPANY_ID=e.EXPRESSCOMPANY_ID
+		where 1=1
+		<if test="USER_ID!=null and USER_ID!=''">
+			and  o.USER_ID = #{USER_ID}
+		</if>
+		<if test="ORDER_STATUS!=null and ORDER_STATUS!=''">
+			and  o.ORDER_STATUS = #{ORDER_STATUS}
+		</if>
+		<if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+					o.RECEIVER LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					 or
+					e.NAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					or
+					o.DETAILS_ADDRESS LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+					or
+					p.PHONE_NUMBER LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				)
+		</if>
+		<if test="lastStart!= null and lastStart != ''">
+			and  o.CREATE_DATE &gt;= #{lastStart}
+		</if>
+		<if test="lastEnd!= null and lastEnd != ''">
+			and	TO_DAYS(o.CREATE_DATE) &lt;= TO_DAYS(#{lastEnd})
+		</if>
+		<if test="EXPRESSCOMPANY_ID!= null and EXPRESSCOMPANY_ID != ''">
+			and  o.EXPRESSCOMPANY_ID = #{EXPRESSCOMPANY_ID}
+		</if>
+		<if test="PAY_STATUS!= null and PAY_STATUS != ''">
+			and  o.PAY_STATUS = #{PAY_STATUS}
+		</if>
+		<if test="PAY_WAY!= null and PAY_WAY != ''">
+			and  o.PAY_WAY = #{PAY_WAY}
+		</if>
+		<if test="DELETE_STATUS!= null and DELETE_STATUS != ''">
+			and  o.DELETE_STATUS = #{DELETE_STATUS}
+		</if>
+		order by o.CREATE_DATE DESC
+		<if test="start_number!=null ">
+			limit #{start_number},#{SET_NUMBER}
+		</if>
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			ORDER_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+	<!-- 用户创建订单-->
+	<insert id="createOrder" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+			ORDER_ID,
+			TOTAL_AMOUNT,
+			GOODS_AMOUNT,
+			FREIGHT_AMOUNT,
+			DEDUCTION_AMOUNT,
+			INTEGRATION_AMOUNT,
+			REAL_PAY_AMOUNT,
+			CREATE_DATE,
+			CREATE_USER,
+			DELETE_STATUS,
+			AREA_ID,
+			DETAILS_ADDRESS,
+			ORDER_STATUS,
+			PAY_STATUS,
+			OUT_ORDER_ID,
+			USER_ID,
+			PAY_WAY,
+			PAY_TIME,
+			RECEIVER,
+			PHONE_NUMBER
+		) values (
+			#{ORDER_ID},
+			#{TOTAL_AMOUNT},
+			#{GOODS_AMOUNT},
+			#{FREIGHT_AMOUNT},
+			#{DEDUCTION_AMOUNT},
+			#{INTEGRATION_AMOUNT},
+			#{REAL_PAY_AMOUNT},
+			#{CREATE_DATE},
+			#{CREATE_USER},
+			#{DELETE_STATUS},
+			#{AREA_ID},
+			#{DETAILS_ADDRESS},
+			#{ORDER_STATUS},
+			#{PAY_STATUS},
+			#{OUT_ORDER_ID},
+			#{USER_ID},
+			#{PAY_WAY},
+			#{PAY_TIME},
+			#{RECEIVER},
+			#{PHONE_NUMBER}
+		)
+	</insert>
+
+
+	<!--用户获取订单详情 -->
+	<select id="orderDetail" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		a1.FULL_NAME AS AREA,
+		a2.FULL_NAME AS CITY,
+		a3.FULL_NAME AS PROVINCE,
+		e.NAME as COMPANY_NAME
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_area a1 on o.AREA_ID = a1.AREA_ID
+		LEFT JOIN zlp_area a2 on a2.AREA_ID = a1.PARENT_ID
+		LEFT JOIN zlp_area a3 on a3.AREA_ID = a2.PARENT_ID
+		LEFT JOIN zlp_express_company e on o.EXPRESSCOMPANY_ID=e.EXPRESSCOMPANY_ID
+		where
+			ORDER_ID = #{ORDER_ID}
+			and o.USER_ID = #{USER_ID}
+	</select>
+
+
+
+	<!-- 订单取消或支付失败时再次支付更新支付编号 -->
+	<update id="updadeOutOrderId" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			<if test="OUT_ORDER_ID!= null and OUT_ORDER_ID!= ''">
+				OUT_ORDER_ID = #{OUT_ORDER_ID},
+			</if>
+		ORDER_ID = ORDER_ID
+		where
+		ORDER_ID = #{ORDER_ID}
+	</update>
+
+</mapper>

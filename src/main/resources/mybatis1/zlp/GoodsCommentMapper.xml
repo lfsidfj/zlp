@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsCommentMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_GOODS_COMMENT
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		GOODSCOMMENT_ID,
+		GOODS_ID,
+		CONTENT,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+		USER_ID,
+		CART_ID
+	</sql>
+	<!-- 字段 -->
+	<sql id="FieldWithAlias">
+		o.GOODSCOMMENT_ID,
+		o.GOODS_ID,
+		o.CONTENT,
+		o.CREATE_DATE,
+		o.CREATE_USER,
+		o.UPDATE_DATE,
+		o.UPDATE_USER,
+		o.DELETE_STATUS,
+		o.USER_ID,
+		o.CART_ID
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{GOODSCOMMENT_ID},
+		#{GOODS_ID},
+		#{CONTENT},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{USER_ID},
+		#{CART_ID}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		<selectKey keyProperty="GOODSCOMMENT_ID" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			GOODSCOMMENT_ID = #{GOODSCOMMENT_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			<if test="GOODS_ID !=null and GOODS_ID!=''">
+				GOODS_ID = #{GOODS_ID},
+			</if>
+			<if test="CONTENT !=null and CONTENT!=''">
+				CONTENT = #{CONTENT},
+			</if>
+			<if test="CREATE_DATE !=null and CREATE_DATE!=''">
+				CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="CREATE_USER !=null and CREATE_USER!=''">
+				CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="UPDATE_DATE !=null and UPDATE_DATE!=''">
+				UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="UPDATE_USER !=null and UPDATE_USER!=''">
+				UPDATE_USER = #{UPDATE_USER},
+			</if>
+			<if test="DELETE_STATUS !=null and DELETE_STATUS!=''">
+				DELETE_STATUS = #{DELETE_STATUS},
+			</if>
+			<if test="USER_ID !=null and USER_ID!=''">
+				USER_ID = #{USER_ID},
+			</if>
+			<if test="CART_ID !=null and CART_ID!=''">
+				CART_ID = #{CART_ID},
+			</if>
+		GOODSCOMMENT_ID = GOODSCOMMENT_ID
+		where
+		GOODSCOMMENT_ID = #{GOODSCOMMENT_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where
+			GOODSCOMMENT_ID = #{GOODSCOMMENT_ID}
+	</select>
+	<!-- 通过ID获取商品品论详情 -->
+	<select id="findCommentById" parameterType="pd" resultType="pd">
+		select
+		o.CONTENT,
+		GROUP_CONCAT(p.PATH) AS PATH
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_goods_comment_picture gc on o.GOODSCOMMENT_ID=gc.GOODSCOMMENT_ID
+		LEFT JOIN tb_pictures p on gc.PICTURE_ID=p.PICTURES_ID
+		where
+			o.GOODSCOMMENT_ID = #{GOODSCOMMENT_ID}
+	</select>
+
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		u.NICK_NAME,
+		u.PHONE_NUMBER,
+		g.GOODS_NAME,
+		p.PATH,
+		c.ORDER_ID
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_app_user u on o.USER_ID=u.USER_ID
+		LEFT JOIN zlp_goods g on o.GOODS_ID=g.GOODS_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		LEFT JOIN zlp_cart c on o.CART_ID=c.CART_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+					o.CONTENT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					u.NICK_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.lastStart!= null and pd.lastStart != ''">
+			and  o.CREATE_DATE &gt;= #{pd.lastStart}
+		</if>
+		<if test="pd.lastEnd!= null and pd.lastEnd != ''">
+			and	TO_DAYS(o.CREATE_DATE) &lt;= TO_DAYS(#{pd.lastEnd})
+		</if>
+		<if test="pd.USER_ROLE!= null and pd.USER_ROLE!= ''">
+			and  u.ROLE = #{pd.USER_ROLE}
+		</if>
+		order by o.CREATE_DATE DESC
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		order by CREATE_DATE DESC
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			GOODSCOMMENT_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 查询商品评论条数 -->
+	<select id="findCountById" parameterType="pd" resultType="pd">
+		select
+		COUNT(*) as ids
+		from
+		<include refid="tableName"></include>
+			WHERE GOODS_ID= #{GOODS_ID}
+	</select>
+	
+	<!-- 商品评论列表 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		select
+			c.GOODSCOMMENT_ID,
+			c.GOODS_ID,
+			c.USER_ID,
+			c.CONTENT,
+			c.CREATE_DATE,
+			u.NICK_NAME,
+			p.PATH as USER_PATH,
+			t.SPEC
+		from
+			ZLP_GOODS_COMMENT c
+			LEFT JOIN zlp_app_user u on c.USER_ID=u.USER_ID
+			LEFT JOIN tb_pictures p on p.PICTURES_ID = u.PICTURE_ID
+			LEFT JOIN zlp_cart t ON t.CART_ID = c.CART_ID
+		where 1=1
+			and  c.GOODS_ID = #{pd.GOODS_ID}
+			order by c.CREATE_DATE DESC
+	</select>
+
+</mapper>

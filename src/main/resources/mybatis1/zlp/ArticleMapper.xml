@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ArticleMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_ARTICLE
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		ARTICLE_ID,	
+		ARTICLE_NAME,	
+		ARTICLE_CONTENT,	
+		SEQENCE,	
+		CREATE_USER,	
+		CREATE_DATE,	
+		UPDATE_USER,	
+		UPDATE_DATE,	
+		IS_SHOW
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{ARTICLE_ID},	
+		#{ARTICLE_NAME},	
+		#{ARTICLE_CONTENT},	
+		#{SEQENCE},	
+		#{CREATE_USER},	
+		#{CREATE_DATE},	
+		#{UPDATE_USER},	
+		#{UPDATE_DATE},	
+		#{IS_SHOW}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+            ARTICLE_NAME,
+            ARTICLE_CONTENT,
+            SEQENCE,
+            CREATE_USER,
+            CREATE_DATE,
+            IS_SHOW,
+            ARTICLE_CATEGORY_ID
+		) values (
+            #{ARTICLE_NAME},
+            #{ARTICLE_CONTENT},
+            #{SEQENCE},
+            #{CREATE_USER},
+            #{CREATE_DATE},
+            #{IS_SHOW},
+            #{ARTICLE_CATEGORY_ID}
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ARTICLE_ID = #{ARTICLE_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			ARTICLE_NAME = #{ARTICLE_NAME},
+			ARTICLE_CONTENT = #{ARTICLE_CONTENT},
+			SEQENCE = #{SEQENCE},
+			UPDATE_USER = #{UPDATE_USER},
+			UPDATE_DATE = #{UPDATE_DATE},
+			IS_SHOW = #{IS_SHOW},
+            ARTICLE_CATEGORY_ID = #{ARTICLE_CATEGORY_ID},
+		ARTICLE_ID = ARTICLE_ID
+		where 
+		ARTICLE_ID = #{ARTICLE_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+            A.ARTICLE_ID,
+            A.ARTICLE_NAME,
+            A.ARTICLE_CONTENT,
+            A.SEQENCE,
+            A.CREATE_USER,
+            A.CREATE_DATE,
+            A.UPDATE_USER,
+            A.UPDATE_DATE,
+            A.IS_SHOW,
+            A.ARTICLE_CATEGORY_ID,
+            C.CATEGORY_NAME
+		from
+            <include refid="tableName"></include> A
+            left join ZLP_ARTICLE_CATEGORY C on C.ARTICLE_CATEGORY_ID = A.ARTICLE_CATEGORY_ID
+		where 
+			ARTICLE_ID = #{ARTICLE_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+            A.ARTICLE_ID,
+            A.ARTICLE_NAME,
+            A.ARTICLE_CONTENT,
+            A.SEQENCE,
+            A.CREATE_USER,
+            A.CREATE_DATE,
+            A.UPDATE_USER,
+            A.UPDATE_DATE,
+            A.IS_SHOW,
+            A.ARTICLE_CATEGORY_ID,
+            C.CATEGORY_NAME
+		from
+            <include refid="tableName"></include> A
+            left join ZLP_ARTICLE_CATEGORY C on C.ARTICLE_CATEGORY_ID = A.ARTICLE_CATEGORY_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+                  A.ARTICLE_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+        <if test="pd.ARTICLE_CATEGORY_ID!= null and pd.ARTICLE_CATEGORY_ID != ''"> <!-- 文章类目 -->
+            and A.ARTICLE_CATEGORY_ID = #{pd.ARTICLE_CATEGORY_ID}
+        </if>
+        order by A.SEQENCE ASC
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			ARTICLE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

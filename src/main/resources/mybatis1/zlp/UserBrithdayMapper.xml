@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserBrithdayMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_BIRTHDAY
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		BIRTHDAY_ID,
+		NAME,
+		PHONE_NUMBER,
+		USER_ID,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+		SEX,
+		RELATIONSHIP,
+		PICTURE_ID,
+		ADVANCE_DATE_COUNT,
+		SOLAR_BIRTHDAY,
+		LUNAR_BRITHDAY,
+		NEXT_LUNAR_BRITHDAY,
+		NEXT_SOLAR_BRITHDAY,
+		REMIND_TYPE,
+		NEXT_LB_DAYS,
+		NEXT_SB_DAYS
+	</sql>
+	<!-- 别名字段 -->
+	<sql id="bieMField">
+		b.BIRTHDAY_ID,
+		b.NAME,
+		b.PHONE_NUMBER,
+		b.USER_ID,
+		b.CREATE_DATE,
+		b.CREATE_USER,
+		b.UPDATE_DATE,
+		b.UPDATE_USER,
+		b.DELETE_STATUS,
+		b.SEX,
+		b.RELATIONSHIP,
+		b.PICTURE_ID,
+		b.ADVANCE_DATE_COUNT,
+		b.SOLAR_BIRTHDAY,
+		b.LUNAR_BRITHDAY,
+		b.NEXT_LUNAR_BRITHDAY,
+		b.NEXT_SOLAR_BRITHDAY,
+		b.REMIND_TYPE,
+		b.NEXT_LB_DAYS,
+		b.NEXT_SB_DAYS
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{BIRTHDAY_ID},
+		#{NAME},
+		#{PHONE_NUMBER},
+		#{USER_ID},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{SEX},
+		#{RELATIONSHIP},
+		#{PICTURE_ID},
+		#{ADVANCE_DATE_COUNT},
+		#{SOLAR_BIRTHDAY},
+		#{LUNAR_BRITHDAY},
+		#{NEXT_LUNAR_BRITHDAY},
+		#{NEXT_SOLAR_BRITHDAY},
+		#{REMIND_TYPE},
+		#{NEXT_LB_DAYS},
+		#{NEXT_SB_DAYS}
+
+
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			BIRTHDAY_ID = #{BIRTHDAY_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			<if test="NAME!=null and NAME!=''">
+				NAME = #{NAME},
+			</if>
+			<if test="PHONE_NUMBER!=null and PHONE_NUMBER!=''">
+			PHONE_NUMBER = #{PHONE_NUMBER},
+			</if>
+			<if test="USER_ID!=null and USER_ID!=''">
+			USER_ID = #{USER_ID},
+			</if>
+			<if test="CREATE_DATE!=null and CREATE_DATE!=''">
+			CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="CREATE_USER!=null and CREATE_USER!=''">
+			CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="UPDATE_DATE!=null and UPDATE_DATE!=''">
+			UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="UPDATE_USER!=null and UPDATE_USER!=''">
+			UPDATE_USER = #{UPDATE_USER},
+			</if>
+			<if test="DELETE_STATUS!=null and DELETE_STATUS!=''">
+			DELETE_STATUS = #{DELETE_STATUS},
+			</if>
+			<if test="SEX!=null and SEX!=''">
+			SEX = #{SEX},
+			</if>
+			<if test="RELATIONSHIP!=null and RELATIONSHIP!=''">
+			RELATIONSHIP = #{RELATIONSHIP},
+			</if>
+			<if test="PICTURE_ID!=null and PICTURE_ID!=''">
+			PICTURE_ID = #{PICTURE_ID},
+			</if>
+			<if test="ADVANCE_DATE_COUNT!=null">
+			ADVANCE_DATE_COUNT = #{ADVANCE_DATE_COUNT},
+			</if>
+			<if test="IS_REMIND_LUNAR!=null and IS_REMIND_LUNAR!=''">
+			IS_REMIND_LUNAR = #{IS_REMIND_LUNAR},
+			</if>
+			<if test="SOLAR_BIRTHDAY!=NULL and SOLAR_BIRTHDAY!=''">
+			SOLAR_BIRTHDAY = #{SOLAR_BIRTHDAY},
+			</if>
+			<if test="LUNAR_BRITHDAY!=NULL and LUNAR_BRITHDAY!=''">
+			LUNAR_BRITHDAY = #{LUNAR_BRITHDAY},
+			</if>
+			<if test="NEXT_LUNAR_BRITHDAY!=null">
+			NEXT_LUNAR_BRITHDAY = #{NEXT_LUNAR_BRITHDAY},
+			</if>
+			<if test="NEXT_SOLAR_BRITHDAY!=null">
+			NEXT_SOLAR_BRITHDAY = #{NEXT_SOLAR_BRITHDAY},
+			</if>
+			<if test="REMIND_TYPE!=null">
+			REMIND_TYPE = #{REMIND_TYPE},
+			</if>
+			<if test="NEXT_LB_DAYS!=null">
+			NEXT_LB_DAYS = #{NEXT_LB_DAYS},
+			</if>
+			<if test="NEXT_SB_DAYS!=null">
+			NEXT_SB_DAYS = #{NEXT_SB_DAYS},
+			</if>
+			BIRTHDAY_ID = BIRTHDAY_ID
+		where
+		BIRTHDAY_ID = #{BIRTHDAY_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="bieMField"></include>,
+		t.PATH
+		from
+		<include refid="tableName"></include> b
+		LEFT JOIN tb_pictures t on b.picture_id = t.PICTURES_ID
+		where
+			b.BIRTHDAY_ID = #{BIRTHDAY_ID}
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+				)
+		</if>
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		b.BIRTHDAY_ID,
+		b.NAME,
+		b.PHONE_NUMBER,
+		b.USER_ID,
+		b.CREATE_DATE,
+		b.CREATE_USER,
+		b.UPDATE_DATE,
+		b.UPDATE_USER,
+		b.DELETE_STATUS,
+		b.SEX,
+		b.RELATIONSHIP,
+		b.PICTURE_ID,
+		b.ADVANCE_DATE_COUNT,
+		b.SOLAR_BIRTHDAY,
+		b.LUNAR_BRITHDAY,
+		b.NEXT_LUNAR_BRITHDAY,               
+		b.NEXT_SOLAR_BRITHDAY,
+		b.REMIND_TYPE,
+		b.NEXT_LB_DAYS,
+		b.NEXT_SB_DAYS,
+		CASE
+				WHEN b.REMIND_TYPE = 0 THEN
+					b.NEXT_SB_DAYS
+				WHEN b.REMIND_TYPE = 1 THEN
+						b.NEXT_LB_DAYS
+				WHEN b.REMIND_TYPE = 2 and b.NEXT_LB_DAYS > b.NEXT_SB_DAYS THEN
+					b.NEXT_SB_DAYS	
+				else 
+					b.NEXT_LB_DAYS
+				END BIRTHDAY_DAYS,
+		t.PATH
+		from
+		zlp_birthday b
+		LEFT JOIN tb_pictures t on b.picture_id = t.PICTURES_ID
+		where b.user_id = #{USER_ID}
+		ORDER BY BIRTHDAY_DAYS
+	</select>
+
+
+
+
+</mapper>

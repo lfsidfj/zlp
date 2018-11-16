@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsCommentPictureMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_GOODS_COMMENT_PICTURE
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		COMMENT_PICTURE_ID,
+		PICTURE_ID,
+		GOODSCOMMENT_ID
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{COMMENT_PICTURE_ID},
+		#{PICTURE_ID},
+		#{GOODSCOMMENT_ID}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="java.util.List">
+		insert into
+	<include refid="tableName"></include>
+		<!-- (
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		) -->
+			(
+			GOODSCOMMENT_ID,
+			PICTURE_ID
+		) values <foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.GOODSCOMMENT_ID},
+			#{item.PICTURE_ID}
+			 )
+		</foreach>
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			COMMENT_PICTURE_ID = #{COMMENT_PICTURE_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			COMMENT_PICTURE_ID = #{COMMENT_PICTURE_ID},
+			PICTURE_ID = #{PICTURE_ID},
+			GOODSCOMMENT_ID = #{GOODSCOMMENT_ID},
+		COMMENT_PICTURE_ID = COMMENT_PICTURE_ID
+		where
+		COMMENT_PICTURE_ID = #{COMMENT_PICTURE_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where
+			COMMENT_PICTURE_ID = #{COMMENT_PICTURE_ID}
+	</select>
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+				)
+		</if>
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="COMMENT_PICTURE_ID!=null and COMMENT_PICTURE_ID!=''">
+			and	COMMENT_PICTURE_ID=#{COMMENT_PICTURE_ID}
+		</if>
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			COMMENT_PICTURE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+	<!-- 通过评论ID获取数据 -->
+	<select id="findByIdComment" parameterType="pd" resultType="pd">
+		select
+			PICTURE_ID,
+			GOODSCOMMENT_ID,
+			p.PATH as COMMENT_PATH
+		from
+			ZLP_GOODS_COMMENT_PICTURE c
+			LEFT JOIN tb_pictures p on p.PICTURES_ID = c.PICTURE_ID
+		where
+			GOODSCOMMENT_ID = #{GOODSCOMMENT_ID}
+	</select>
+
+
+</mapper>

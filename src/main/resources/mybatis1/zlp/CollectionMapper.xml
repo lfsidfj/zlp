@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CollectionMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_COLLECTION
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		COLLECTION_ID,
+		ARTICLE_ID,
+		GOODS_ID,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+		USER_ID,
+		COLLECTION_TYPE
+	</sql>
+	<!-- 字段 -->
+	<sql id="FieldWithAlias">
+		o.COLLECTION_ID,
+		o.ARTICLE_ID,
+		o.GOODS_ID,
+		o.CREATE_DATE,
+		o.CREATE_USER,
+		o.UPDATE_DATE,
+		o.UPDATE_USER,
+		o.DELETE_STATUS,
+		o.USER_ID,
+		o.COLLECTION_TYPE
+	</sql>
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{COLLECTION_ID},
+		#{ARTICLE_ID},
+		#{GOODS_ID},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{USER_ID},
+		#{COLLECTION_TYPE}
+	</sql>
+
+
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="USER_ID != null and USER_ID !=''">
+			and USER_ID = #{USER_ID}
+		</if>
+		<if test="ARTICLE_ID != null and ARTICLE_ID !=''">
+			and ARTICLE_ID = #{ARTICLE_ID}
+		</if>
+		<if test="COLLECTION_ID != NULL and COLLECTION_ID !=''">
+			and COLLECTION_ID = #{COLLECTION_ID}
+		</if>
+
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			COLLECTION_ID = #{COLLECTION_ID},
+			ARTICLE_ID = #{ARTICLE_ID},
+			GOODS_ID = #{GOODS_ID},
+			CREATE_DATE = #{CREATE_DATE},
+			CREATE_USER = #{CREATE_USER},
+			UPDATE_DATE = #{UPDATE_DATE},
+			UPDATE_USER = #{UPDATE_USER},
+			DELETE_STATUS = #{DELETE_STATUS},
+			USER_ID = #{USER_ID},
+			COLLECTION_TYPE = #{COLLECTION_TYPE},
+		COLLECTION_ID = COLLECTION_ID
+		where
+		COLLECTION_ID = #{COLLECTION_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+			<if test="COLLECTION_ID!=null and COLLECTION_ID!=''">
+				and COLLECTION_ID = #{COLLECTION_ID}
+			</if>
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+				)
+		</if>
+	</select>
+	<!-- app端展示使用列表 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		g.GOODS_NAME,
+		g.FAVORITE_NUMBER,
+		g.CURRENT_PRICE,
+		p.PATH,
+		p1.PATH AS USER_PATH,
+		u.NICK_NAME,
+		u.SEX,
+		a.CONTENT,
+		a.VISITOR_VOLUME,
+		a.COLLECTION_VOLUME,
+		a.PRAISE_VOLUME,
+		a.CREATE_DATE as CREATE_DATE1
+		<if test="pd.COLLECTION_TYPE1!=null and pd.COLLECTION_TYPE1!=''">
+			,ps.ARTICLE_ID as A_ID
+		</if>
+			,(
+			SELECT
+				COUNT(*)
+			FROM
+		zlp_article_comment c
+			WHERE
+				c.article_id = o.ARTICLE_ID
+		) AS COMMENT_COUNT
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_app_user u on o.USER_ID=u.USER_ID
+		LEFT JOIN zlp_goods g on o.GOODS_ID=g.GOODS_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID = p.PICTURES_ID
+		LEFT JOIN tb_pictures p1 on u.PICTURE_ID = p1.PICTURES_ID
+		LEFT JOIN zlp_article a on o.ARTICLE_ID = a.ARTICLE_ID
+		<if test="pd.COLLECTION_TYPE1!=null and pd.COLLECTION_TYPE1!=''">
+			LEFT JOIN zlp_praise ps ON ps.ARTICLE_ID = o.ARTICLE_ID
+			and ps.user_id =#{pd.USER_ID}
+		</if>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+				)
+		</if>
+		<if test="pd.USER_ID!=null and pd.USER_ID!=''">
+			and o.USER_ID = #{pd.USER_ID}
+		</if>
+		<if test="pd.COLLECTION_TYPE!=null and pd.COLLECTION_TYPE!=''">
+			and o.COLLECTION_TYPE = #{pd.COLLECTION_TYPE}
+		</if>
+			order by o.CREATE_DATE DESC
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		g.GOODS_NAME,
+		g.FAVORITE_NUMBER,
+		g.CURRENT_PRICE,
+		p.PATH,
+		p1.PATH AS USER_PATH,
+		u.NICK_NAME,
+		a.CONTENT,
+		a.VISITOR_VOLUME,
+		a.COLLECTION_VOLUME,
+		a.PRAISE_VOLUME,
+		a.CREATE_DATE
+		<if test="COLLECTION_TYPE1!=null and COLLECTION_TYPE1!=''">
+			,ps.ARTICLE_ID as A_ID
+		</if>
+			,(
+			SELECT
+				COUNT(*)
+			FROM
+		zlp_article_comment c
+			WHERE
+				c.article_id = o.ARTICLE_ID
+		) AS COMMENT_COUNT
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN zlp_app_user u on o.USER_ID=u.USER_ID
+		LEFT JOIN zlp_goods g on o.GOODS_ID=g.GOODS_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID = p.PICTURES_ID
+		LEFT JOIN tb_pictures p1 on u.PICTURE_ID = p1.PICTURES_ID
+		LEFT JOIN zlp_article a on o.ARTICLE_ID = a.ARTICLE_ID
+		<if test="COLLECTION_TYPE1!=null and COLLECTION_TYPE1!=''">
+			LEFT JOIN zlp_praise ps ON ps.ARTICLE_ID = o.ARTICLE_ID
+			and ps.user_id =#{USER_ID}
+		</if>
+		where 1=1
+		<if test="COLLECTION_ID!=null and COLLECTION_ID!=''">
+			and o.COLLECTION_ID = #{COLLECTION_ID}
+		</if>
+		<if test="USER_ID!=null and USER_ID!=''">
+			and o.USER_ID = #{USER_ID}
+		</if>
+		<if test="COLLECTION_TYPE!=null and COLLECTION_TYPE!=''">
+			and o.COLLECTION_TYPE = #{COLLECTION_TYPE}
+		</if>
+			order by o.CREATE_DATE
+		<if test="start_number!=null ">
+			limit #{start_number},#{SET_NUMBER}
+		</if>
+
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			COLLECTION_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	<!-- 通过商品ID获取数据 -->
+	<select id="findByGoodsId" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+			<if test="GOODS_ID!=null and GOODS_ID!=''">
+				and GOODS_ID = #{GOODS_ID}
+			</if>
+			<if test="USER_ID!=null and USER_ID!=''">
+				and USER_ID = #{USER_ID}
+			</if>
+	</select>
+
+	<!-- 通过商品ID删除收藏-->
+	<delete id="deleteGoodsId" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="USER_ID != null and USER_ID !=''">
+			and USER_ID = #{USER_ID}
+		</if>
+		<if test="GOODS_ID != null and GOODS_ID !=''">
+			and GOODS_ID = #{GOODS_ID}
+		</if>
+	</delete>
+
+</mapper>

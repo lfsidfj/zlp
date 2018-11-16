@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsTypeMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		zlp_goods_type
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		GOODSTYPE_ID,	
+		TYPE_NAME,	
+		TYPE_IMAGE,	
+		SEQENCE,	
+		CREATE_DATE,	
+		CREATE_USER,	
+		UPDATE_DATE,	
+		UPDATE_USER,	
+		DELETE_STATUS
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{GOODSTYPE_ID},	
+		#{TYPE_NAME},	
+		#{TYPE_IMAGE},	
+		#{SEQENCE},	
+		#{CREATE_DATE},	
+		#{CREATE_USER},	
+		#{UPDATE_DATE},	
+		#{UPDATE_USER},	
+		#{DELETE_STATUS}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(	
+			TYPE_NAME,	
+			TYPE_IMAGE,	
+			SEQENCE,	
+			CREATE_DATE,	
+			CREATE_USER,	
+			UPDATE_DATE,	
+			UPDATE_USER,	
+			DELETE_STATUS
+		) values (
+			#{TYPE_NAME},	
+			#{TYPE_IMAGE},	
+			#{SEQENCE},	
+			#{CREATE_DATE},	
+			#{CREATE_USER},	
+			#{UPDATE_DATE},	
+			#{UPDATE_USER},	
+			#{DELETE_STATUS}
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GOODSTYPE_ID = #{GOODSTYPE_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			TYPE_NAME = #{TYPE_NAME},
+			TYPE_IMAGE = #{TYPE_IMAGE},
+			SEQENCE = #{SEQENCE},
+			UPDATE_DATE = #{UPDATE_DATE},
+			UPDATE_USER = #{UPDATE_USER},
+		GOODSTYPE_ID = GOODSTYPE_ID
+		where 
+		GOODSTYPE_ID = #{GOODSTYPE_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			GOODSTYPE_ID = #{GOODSTYPE_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		t.GOODSTYPE_ID,	
+		t.TYPE_NAME,	
+		t.TYPE_IMAGE,	
+		t.SEQENCE,	
+		t.CREATE_DATE,	
+		t.CREATE_USER,	
+		t.UPDATE_DATE,	
+		t.UPDATE_USER,	
+		t.DELETE_STATUS,
+		p.PATH
+		from
+		zlp_goods_type t
+		LEFT JOIN tb_pictures p on t.TYPE_IMAGE=p.PICTURES_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					t.TYPE_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		and DELETE_STATUS !=1 order by t.SEQENCE ASC
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+			t.GOODSTYPE_ID,	
+			t.TYPE_NAME,	
+			t.TYPE_IMAGE,	
+			t.SEQENCE,	
+			t.CREATE_DATE,	
+			t.CREATE_USER,	
+			t.UPDATE_DATE,	
+			t.UPDATE_USER,	
+			t.DELETE_STATUS,
+			p.PATH
+		from 
+			zlp_goods_type t
+			LEFT JOIN tb_pictures p on t.TYPE_IMAGE=p.PICTURES_ID
+		where 1=1
+			and DELETE_STATUS !=1 order by t.SEQENCE ASC
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			GOODSTYPE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 删除 -->
+	<update id="deleteType" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			DELETE_STATUS = 1,
+			GOODSTYPE_ID = GOODSTYPE_ID
+		where 
+		GOODSTYPE_ID = #{GOODSTYPE_ID}
+	</update>
+	
+	<!-- 批量删除 -->
+	<update id="deleteAllType" parameterType="String">
+		update 
+		<include refid="tableName"></include>
+		set 
+			DELETE_STATUS = 1,
+			GOODSTYPE_ID = GOODSTYPE_ID
+		where 
+			GOODSTYPE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</update>
+	
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SpecValueMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		zlp_spec_value
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		SPECVALUE_ID,	
+		SPEC_VALUE,	
+		SEQENCE,	
+		SPEC_ID
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{SPECVALUE_ID},	
+		#{SPEC_VALUE},	
+		#{SEQENCE},	
+		#{SPEC_ID}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+			SPEC_VALUE,	
+			SEQENCE,	
+			SPEC_ID
+		) values (	
+			#{SPEC_VALUE},	
+			#{SEQENCE},	
+			#{SPEC_ID}
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SPECVALUE_ID = #{SPECVALUE_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			SPEC_VALUE = #{SPEC_VALUE},
+			SEQENCE = #{SEQENCE},
+			SPEC_ID = #{SPEC_ID},
+		SPECVALUE_ID = SPECVALUE_ID
+		where 
+		SPECVALUE_ID = #{SPECVALUE_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			SPECVALUE_ID = #{SPECVALUE_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					SPEC_VALUE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.SPEC_ID!= null and pd.SPEC_ID != ''">
+			and SPEC_ID = #{pd.SPEC_ID}
+		</if>
+		order by SEQENCE ASC
+	</select>
+	
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.SPEC_ID!= null and pd.SPEC_ID != ''">
+			and SPEC_ID = #{pd.SPEC_ID}
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SPECVALUE_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	<!-- 列表 -->
+	<select id="listBySpecId" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="SPEC_ID!= null and SPEC_ID != ''">
+			and SPEC_ID = #{SPEC_ID}
+		</if>
+	</select>
+	
+	
+	<!-- 通过SpecID删除-->
+	<delete id="deleteBySpecId" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SPEC_ID = #{SPEC_ID}
+	</delete>
+	
+	<!-- 通过SpecID批量删除 -->
+	<delete id="deleteAllBySpecId" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			SPEC_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

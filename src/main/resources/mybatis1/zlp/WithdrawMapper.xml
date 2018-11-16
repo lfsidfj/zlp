@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WithdrawMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_WITHDRAW
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		WITHDRAW_ID,	
+		CREATE_DATE,	
+		CREATE_USER,	
+		UPDATE_DATE,	
+		UPDATE_USER,	
+		DELETE_STATUS,	
+		USER_ID,	
+		AMOUNT,	
+		STATUS,	
+		ACCOUNT,	
+		REAL_NAME,	
+		ACCOUNT_TYPE	
+
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{WITHDRAW_ID},	
+		#{CREATE_DATE},	
+		#{CREATE_USER},	
+		#{UPDATE_DATE},	
+		#{UPDATE_USER},	
+		#{DELETE_STATUS},	
+		#{USER_ID},	
+		#{AMOUNT},	
+		#{STATUS},	
+		#{ACCOUNT},	
+		#{REAL_NAME},	
+		#{ACCOUNT_TYPE}	
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" keyProperty="WITHDRAW_ID" useGeneratedKeys="true" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			WITHDRAW_ID = #{WITHDRAW_ID}
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			<if test="CREATE_DATE != null and CREATE_DATE != ''">
+			CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="CREATE_USER != null and CREATE_USER != ''">
+			CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="UPDATE_DATE != null and UPDATE_DATE != ''">
+			UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="UPDATE_USER != null and UPDATE_USER != ''">
+			UPDATE_USER = #{UPDATE_USER},
+			</if>
+			<if test="DELETE_STATUS != null and DELETE_STATUS != ''">
+			DELETE_STATUS = #{DELETE_STATUS},
+			</if>
+			<if test="USER_ID != null and USER_ID != ''">
+			USER_ID = #{USER_ID},
+			</if>
+			<if test="AMOUNT != null and AMOUNT != ''">
+			AMOUNT = #{AMOUNT},
+			</if>
+			<if test="STATUS != null and STATUS != ''">
+			STATUS = #{STATUS},
+			</if>
+			<if test="ACCOUNT != null and ACCOUNT != ''">
+			ACCOUNT = #{ACCOUNT},
+			</if>
+			<if test="REAL_NAME != null and REAL_NAME != ''">
+			REAL_NAME = #{REAL_NAME},
+			</if>
+			<if test="ACCOUNT_TYPE != null and ACCOUNT_TYPE != ''">
+			ACCOUNT_TYPE = #{ACCOUNT_TYPE},
+			</if>
+		WITHDRAW_ID = WITHDRAW_ID
+		where 
+		WITHDRAW_ID = #{WITHDRAW_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			WITHDRAW_ID = #{WITHDRAW_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					account LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					real_name LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				)
+		</if>
+		<if test="pd.lastStart!= null and pd.lastStart != ''">
+			and create_date &gt;= #{pd.lastStart}
+		</if>
+		<if test="pd.lastEnd!= null and pd.lastEnd != ''">
+			and	TO_DAYS(create_date) &lt;= TO_DAYS(#{pd.lastEnd})
+		</if>
+		<if test="pd.STATUS != null and pd.STATUS !='' ">
+			and STATUS = #{pd.STATUS}
+		</if>
+		<if test="pd.ACCOUNT_TYPE != null and pd.ACCOUNT_TYPE !='' ">
+			and ACCOUNT_TYPE = #{pd.ACCOUNT_TYPE}
+		</if>
+		order by create_date desc
+	</select>
+	
+	
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where USER_ID=#{USER_ID} and status = 0
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			WITHDRAW_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+	
+</mapper>

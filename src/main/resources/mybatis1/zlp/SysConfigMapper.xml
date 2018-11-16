@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysConfigMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_SYS_CONFIG
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		CONFIG_ID,
+		AGENT_ONE_INCOME,
+		AGENT_TWO_INCOME,
+		PARTNER_ONE_INCOME,
+		PARTNER_TWO_INCOME,
+		VIP_ONE_INCOME,
+		VIP_TWO_INCOME,
+		MEMBERS_ONE_INCOME,
+		MEMBERS_TWO_INCOME,
+		MINIMUM_INCOME,
+		INTEGRATION_RETURN_RATE,
+		INTEGRATION_RATE,
+		FREE_SHIPPING_AMOUNT,
+		PARTNER_INCOME_RATE,
+		AGENT_INCOME_RATE,
+		FREE_CAKE_COUNT,
+		PARTNER_INVITE_RATE,
+		AGENT_INVITE_RATE,
+		PARTNER_GIVE_INTE,
+		AGENT_GIVE_INTE,
+		MEMBERS_GIVE_INTE,
+		PARTNER_THREE_INCOME,
+		PARTNER_CHILDREN_INCOME,
+		VIP_GIVE_INTE,
+		POSTAGE,
+		AWARD_POSTAGE,
+		ABOUT_US
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{AGENT_ONE_INCOME},
+		#{AGENT_TWO_INCOME},
+		#{PARTNER_ONE_INCOME},
+		#{PARTNER_TWO_INCOME},
+		#{VIP_ONE_INCOME},
+		#{VIP_TWO_INCOME},
+		#{MEMBERS_ONE_INCOME},
+		#{MEMBERS_TWO_INCOME},
+		#{MINIMUM_INCOME},
+		#{INTEGRATION_RETURN_RATE},
+		#{INTEGRATION_RATE},
+		#{FREE_SHIPPING_AMOUNT},
+		#{PARTNER_INCOME_RATE},
+		#{AGENT_INCOME_RATE},
+		#{FREE_CAKE_COUNT},
+		#{PARTNER_INVITE_RATE},
+		#{AGENT_INVITE_RATE},
+		#{PARTNER_GIVE_INTE},
+		#{AGENT_GIVE_INTE},
+		#{MEMBERS_GIVE_INTE},
+		#{PARTNER_THREE_INCOME},
+		#{PARTNER_CHILDREN_INCOME},
+		#{VIP_GIVE_INTE},
+		#{POSTAGE},
+		#{AWARD_POSTAGE},
+		#{ABOUT_US}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			CONFIG_ID = #{CONFIG_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			CONFIG_ID = #{CONFIG_ID},
+			<if test="AGENT_ONE_INCOME!=null">
+			AGENT_ONE_INCOME=#{AGENT_ONE_INCOME},
+			</if>
+			<if test="AGENT_TWO_INCOME!=null">
+			AGENT_TWO_INCOME=#{AGENT_TWO_INCOME},
+			</if>
+			<if test="PARTNER_ONE_INCOME!=null">
+			PARTNER_ONE_INCOME=#{PARTNER_ONE_INCOME},
+			</if>
+			<if test="PARTNER_TWO_INCOME!=null">
+			PARTNER_TWO_INCOME=#{PARTNER_TWO_INCOME},
+			</if>
+			<if test="VIP_ONE_INCOME!=null">
+			VIP_ONE_INCOME=#{VIP_ONE_INCOME},
+			</if>
+			<if test="VIP_TWO_INCOME!=null">
+			VIP_TWO_INCOME=#{VIP_TWO_INCOME},
+			</if>
+			<if test="MEMBERS_ONE_INCOME!=null">
+			MEMBERS_ONE_INCOME=#{MEMBERS_ONE_INCOME},
+			</if>
+			<if test="MEMBERS_TWO_INCOME!=null">
+			MEMBERS_TWO_INCOME=#{MEMBERS_TWO_INCOME},
+			</if>
+			<if test="MINIMUM_INCOME!=null">
+			MINIMUM_INCOME=#{MINIMUM_INCOME},
+			</if>
+			<if test="INTEGRATION_RETURN_RATE!=null">
+			INTEGRATION_RETURN_RATE=#{INTEGRATION_RETURN_RATE},
+			</if>
+			<if test="INTEGRATION_RATE!=null">
+			INTEGRATION_RATE=#{INTEGRATION_RATE},
+			</if>
+			<if test="FREE_SHIPPING_AMOUNT!=null">
+			FREE_SHIPPING_AMOUNT=#{FREE_SHIPPING_AMOUNT},
+			</if>
+			<if test="PARTNER_INCOME_RATE!=null">
+			PARTNER_INCOME_RATE=#{PARTNER_INCOME_RATE},
+			</if>
+			<if test="AGENT_INCOME_RATE!=null">
+			AGENT_INCOME_RATE=#{AGENT_INCOME_RATE},
+			</if>
+			<if test="FREE_CAKE_COUNT!=null">
+			FREE_CAKE_COUNT=#{FREE_CAKE_COUNT},
+			</if>
+			<if test="PARTNER_INVITE_RATE!=null">
+			PARTNER_INVITE_RATE=#{PARTNER_INVITE_RATE},
+			</if>
+			<if test="AGENT_INVITE_RATE!=null">
+			AGENT_INVITE_RATE=#{AGENT_INVITE_RATE},
+			</if>
+			<if test="PARTNER_GIVE_INTE!=null">
+			PARTNER_GIVE_INTE=#{PARTNER_GIVE_INTE},
+			</if>
+			<if test="AGENT_GIVE_INTE!=null">
+			AGENT_GIVE_INTE=#{AGENT_GIVE_INTE},
+			</if>
+			<if test="MEMBERS_GIVE_INTE!=null">
+			MEMBERS_GIVE_INTE=#{MEMBERS_GIVE_INTE},
+			</if>
+			<if test="PARTNER_THREE_INCOME!=null">
+			PARTNER_THREE_INCOME=#{PARTNER_THREE_INCOME},
+			</if>
+			<if test="PARTNER_CHILDREN_INCOME!=null">
+			PARTNER_CHILDREN_INCOME=#{PARTNER_CHILDREN_INCOME},
+			</if>
+			<if test="VIP_GIVE_INTE!=null">
+			VIP_GIVE_INTE=#{VIP_GIVE_INTE},
+			</if>
+			<if test="POSTAGE!=null">
+			POSTAGE=#{POSTAGE},
+			</if>
+			<if test="AWARD_POSTAGE!=null">
+			AWARD_POSTAGE=#{AWARD_POSTAGE},
+			</if>
+			<if test="ABOUT_US!=null and ABOUT_US!=''">
+			ABOUT_US=#{ABOUT_US},
+			</if>
+			CONFIG_ID = #{CONFIG_ID}
+		where
+		CONFIG_ID = #{CONFIG_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				-->
+				)
+		</if>
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			CONFIG_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+
+</mapper>

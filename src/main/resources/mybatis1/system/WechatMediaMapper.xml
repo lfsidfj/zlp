@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="system.wechat.WechatMediaMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		SYS_WECHAT_MEDIA
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		WECHAT_MEDIA_ID,
+		MEDIA_ID,	
+		TYPE,	
+		CREATED_AT,	
+		LOCATION,	
+		URL,	
+		TITLE,	
+		INTRODUCTION,
+		TEMPORARYORMATERIAL,
+		UPDATE_TIME
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{WECHAT_MEDIA_ID},
+		#{MEDIA_ID},	
+		#{TYPE},	
+		#{CREATED_AT},	
+		#{LOCATION},	
+		#{URL},	
+		#{TITLE},	
+		#{INTRODUCTION},	
+		#{TEMPORARYORMATERIAL},	
+		#{UPDATE_TIME}
+	</sql>
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+	<selectKey keyProperty="WECHAT_MEDIA_ID" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into 
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="WECHAT_MEDIA_ID!= null and WECHAT_MEDIA_ID != ''">
+			and WECHAT_MEDIA_ID = #{WECHAT_MEDIA_ID}
+		</if>
+		<if test="MEDIA_ID!= null and MEDIA_ID != ''">
+			and MEDIA_ID = #{MEDIA_ID}
+		</if>
+	</delete>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			WECHAT_MEDIA_ID = WECHAT_MEDIA_ID
+			<if test="MEDIA_ID!= null and MEDIA_ID != ''">
+			,MEDIA_ID = #{MEDIA_ID}
+			</if>
+			<if test="TYPE!= null and TYPE != ''">
+			,TYPE = #{TYPE}
+			</if>
+			<if test="CREATED_AT!= null and CREATED_AT != ''">
+			,CREATED_AT = #{CREATED_AT}
+			</if>
+			<if test="LOCATION!= null and LOCATION != ''">
+			,LOCATION = #{LOCATION}
+			</if>
+			<if test="URL!= null and URL != ''">
+			,URL = #{URL}
+			</if>
+			<if test="TITLE!= null and TITLE != ''">
+			,TITLE = #{TITLE}
+			</if>
+			<if test="INTRODUCTION!= null and INTRODUCTION != ''">
+			,INTRODUCTION = #{INTRODUCTION}
+			</if>
+			<if test="UPDATE_TIME!= null and UPDATE_TIME != ''">
+			,UPDATE_TIME = #{UPDATE_TIME}
+			</if>
+		where 
+		WECHAT_MEDIA_ID = #{WECHAT_MEDIA_ID}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			WECHAT_MEDIA_ID = #{WECHAT_MEDIA_ID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.TEMPORARYORMATERIAL != null and pd.TEMPORARYORMATERIAL != ''">
+			and TEMPORARYORMATERIAL=#{pd.TEMPORARYORMATERIAL}
+		</if>
+		<if test="pd.TYPE != null and pd.TYPE != ''">
+			and TYPE=#{pd.TYPE}
+		</if>
+		<if test="pd.EXCLUDENEWS != null and pd.EXCLUDENEWS != ''">
+			and TYPE &lt;&gt; 'news'
+		</if>
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件
+					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				-->
+				)
+		</if>
+		order by WECHAT_MEDIA_ID DESC
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where 
+			WECHAT_MEDIA_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>

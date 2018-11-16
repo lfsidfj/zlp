@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WechatUserMapper">
+	
+	<!-- 新增-->
+	<insert id="save" parameterType="spiderman.wechat.domain.result.WechatUser" >
+		INSERT INTO wechatuser (
+		openid,
+		sex,
+		nickname,
+		province,
+		city,
+		country,
+		headimgurl,
+		unionid,
+		privilegeStr,
+		integration,
+		subscribe
+	)
+	VALUES
+	(
+		#{openid},
+		#{sex},
+		#{nickname},
+		#{province},
+		#{city},
+		#{country},
+		#{headimgurl},
+		#{unionid},
+		#{privilegeStr},
+		#{integration},
+		#{subscribe}
+	)
+	</insert>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="string" resultType="spiderman.wechat.domain.result.WechatUser">
+		SELECT
+			*
+		FROM
+			wechatuser w
+		WHERE
+			w.openid = #{id}
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="spiderman.wechat.domain.result.WechatUser">
+		UPDATE wechatuser
+		SET 
+			<if test="sex != null and sex != ''">
+			sex = #{sex},
+			</if>
+			<if test="nickname != null and nickname != ''">
+			nickname = #{nickname},
+			</if>
+			<if test="province != null and province != ''">
+			province = #{province},
+			</if>
+			<if test="city != null and city != ''">
+			city = #{city},
+			</if>
+			<if test="country != null and country != ''">
+			country = #{country},
+			</if>
+			<if test="headimgurl != null and headimgurl != ''">
+			headimgurl = #{headimgurl},
+			</if>
+			<if test="unionid != null and unionid != ''">
+			unionid = #{unionid},
+			</if>
+			<if test="privilegeStr != null and privilegeStr != ''">
+			privilegeStr = #{privilegeStr},
+			</if>
+			<if test="integration != null and integration != ''">
+			integration = #{integration},
+			</if>
+			<if test="subscribe != null and subscribe != ''">
+			subscribe = #{subscribe},
+			</if>
+			openid = #{openid}
+		WHERE
+			openid = #{openid}
+	</update>
+	<!-- FH QQ 313596790 -->
+</mapper>

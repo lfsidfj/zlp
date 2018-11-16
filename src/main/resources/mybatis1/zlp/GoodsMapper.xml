@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		zlp_goods
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		GOODS_ID,
+		GOODSTYPE_ID,
+		GOODS_NAME,
+		ORIGINAL_PRICE,
+		CURRENT_PRICE,
+		DISCOUNT,
+		DEDUCTION_MONEY,
+		GOODS_POSITION,
+		INTEGRATION,
+		PICTURE_ID,
+		SALES_VOLUME,
+		GOODS_DETAILS,
+		SEQENCE,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+        FAVORITE_NUMBER,
+        IS_BROADCAST,
+        IS_INDEX
+	</sql>
+	<!-- 字段 -->
+	<sql id="FieldWithAlias">
+		o.GOODS_ID,
+		o.GOODSTYPE_ID,
+		o.GOODS_NAME,
+		o.ORIGINAL_PRICE,
+		o.CURRENT_PRICE,
+		o.DISCOUNT,
+		o.DEDUCTION_MONEY,
+		o.GOODS_POSITION,
+		o.INTEGRATION,
+		o.PICTURE_ID,
+		o.SALES_VOLUME,
+		o.GOODS_DETAILS,
+		o.SEQENCE,
+		o.CREATE_DATE,
+		o.CREATE_USER,
+		o.UPDATE_DATE,
+		o.UPDATE_USER,
+		o.DELETE_STATUS,
+        o.FAVORITE_NUMBER,
+        o.IS_BROADCAST,
+        o.IS_INDEX
+	</sql>
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{GOODS_ID},
+		#{GOODSTYPE_ID},
+		#{GOODS_NAME},
+		#{ORIGINAL_PRICE},
+		#{CURRENT_PRICE},
+		#{DISCOUNT},
+		#{DEDUCTION_MONEY},
+		#{GOODS_POSITION},
+		#{INTEGRATION},
+		#{PICTURE_ID},
+		#{SALES_VOLUME},
+		#{GOODS_DETAILS},
+		#{SEQENCE},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{FAVORITE_NUMBER},
+		#{IS_BROADCAST},
+		#{IS_INDEX}
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" keyProperty="id" useGeneratedKeys="true"  parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+			GOODSTYPE_ID,
+			GOODS_NAME,
+			ORIGINAL_PRICE,
+			CURRENT_PRICE,
+			DISCOUNT,
+			DEDUCTION_MONEY,
+			GOODS_POSITION,
+			INTEGRATION,
+			PICTURE_ID,
+			GOODS_DETAILS,
+			SEQENCE,
+			CREATE_DATE,
+			CREATE_USER,
+			UPDATE_DATE,
+			UPDATE_USER,
+			DELETE_STATUS,
+			FAVORITE_NUMBER,
+			IS_BROADCAST,
+			IS_INDEX
+		) values (
+			#{GOODSTYPE_ID},
+			#{GOODS_NAME},
+			#{ORIGINAL_PRICE},
+			#{CURRENT_PRICE},
+			#{DISCOUNT},
+			#{DEDUCTION_MONEY},
+			#{GOODS_POSITION},
+			#{INTEGRATION},
+			#{PICTURE_ID},
+			#{GOODS_DETAILS},
+			#{SEQENCE},
+			#{CREATE_DATE},
+			#{CREATE_USER},
+			#{UPDATE_DATE},
+			#{UPDATE_USER},
+			#{DELETE_STATUS},
+			#{FAVORITE_NUMBER},
+			#{IS_BROADCAST},
+			#{IS_INDEX}
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			GOODS_ID = #{GOODS_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" keyProperty="id" useGeneratedKeys="true" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			GOODSTYPE_ID = #{GOODSTYPE_ID},
+			GOODS_NAME = #{GOODS_NAME},
+			ORIGINAL_PRICE = #{ORIGINAL_PRICE},
+			CURRENT_PRICE = #{CURRENT_PRICE},
+			DISCOUNT = #{DISCOUNT},
+			DEDUCTION_MONEY = #{DEDUCTION_MONEY},
+			INTEGRATION = #{INTEGRATION},
+			PICTURE_ID = #{PICTURE_ID},
+			GOODS_DETAILS = #{GOODS_DETAILS},
+			SEQENCE = #{SEQENCE},
+			UPDATE_DATE = #{UPDATE_DATE},
+			UPDATE_USER = #{UPDATE_USER},
+			FAVORITE_NUMBER = #{FAVORITE_NUMBER},
+			IS_BROADCAST = #{IS_BROADCAST},
+			IS_INDEX = #{IS_INDEX},
+		GOODS_ID = GOODS_ID
+		where
+		GOODS_ID = #{GOODS_ID}
+	</update>
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+			g.GOODS_ID,
+			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_NAME,
+			g.ORIGINAL_PRICE,
+			g.CURRENT_PRICE,
+			g.DISCOUNT,
+			g.DEDUCTION_MONEY,
+			g.GOODS_POSITION,
+			g.INTEGRATION,
+			g.PICTURE_ID,
+			g.SALES_VOLUME,
+			g.GOODS_DETAILS,
+			g.SEQENCE,
+			g.DELETE_STATUS,
+			g.IS_BROADCAST,
+			g.IS_INDEX,
+			p.PATH
+		from
+		zlp_goods g
+		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		where
+			GOODS_ID = #{GOODS_ID}
+	</select>
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+			g.GOODS_ID,
+			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_NAME,
+			g.ORIGINAL_PRICE,
+			g.CURRENT_PRICE,
+			g.DISCOUNT,
+			g.DEDUCTION_MONEY,
+			g.GOODS_POSITION,
+			g.INTEGRATION,
+			g.PICTURE_ID,
+			g.SALES_VOLUME,
+			g.GOODS_DETAILS,
+			g.SEQENCE,
+			g.DELETE_STATUS,
+			g.IS_BROADCAST,
+			g.IS_INDEX,
+			t.TYPE_NAME,
+			p.PATH
+		from
+		zlp_goods g
+		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		</if>
+		<if test="pd.GOODS_POSITION!= null and pd.GOODS_POSITION != ''"><!-- 商品类型 -->
+			and g.GOODS_POSITION = #{pd.GOODS_POSITION}
+		</if>
+		<if test="pd.IS_INDEX!= null and pd.IS_INDEX != ''"><!-- 首页展示 -->
+			and g.IS_INDEX = 1
+		</if>
+		and g.DELETE_STATUS !=1
+		order by g.SEQENCE ASC
+	</select>
+
+	<!-- 移动端商品首页列表 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		select
+			g.GOODS_ID,
+			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_NAME,
+			g.ORIGINAL_PRICE,
+			g.CURRENT_PRICE,
+			g.DISCOUNT,
+			g.DEDUCTION_MONEY,
+			g.GOODS_POSITION,
+			g.INTEGRATION,
+			g.PICTURE_ID,
+			g.SALES_VOLUME,
+			g.GOODS_DETAILS,
+			g.SEQENCE,
+			g.DELETE_STATUS,
+			g.IS_BROADCAST,
+			g.IS_INDEX,
+			t.TYPE_NAME,
+			p.PATH
+		from
+		zlp_goods g
+		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		</if>
+		<if test="pd.partner!= null and pd.partner != ''"> <!-- 合伙人-->
+			and g.GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="pd.vip!= null and pd.vip != ''"> <!-- VIP-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="pd.agent!= null and pd.agent != ''"> <!-- 代理商-->
+			and g.GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="pd.common!= null and pd.common != ''"> <!-- 普通用户-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="pd.members!= null and pd.members != ''"> <!-- 付费会员-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		and g.DELETE_STATUS !=1
+		order by g.SEQENCE ASC
+	</select>
+
+	<!-- 商品分类排序列表 -->
+	<select id="datalistPage2" parameterType="page" resultType="pd">
+		select
+			g.GOODS_ID,
+			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_NAME,
+			g.ORIGINAL_PRICE,
+			g.CURRENT_PRICE,
+			g.DISCOUNT,
+			g.DEDUCTION_MONEY,
+			g.GOODS_POSITION,
+			g.INTEGRATION,
+			g.PICTURE_ID,
+			g.SALES_VOLUME,
+			g.GOODS_DETAILS,
+			g.SEQENCE,
+			g.DELETE_STATUS,
+			g.IS_BROADCAST,
+			g.IS_INDEX,
+			t.TYPE_NAME,
+			p.PATH
+		from
+		zlp_goods g
+		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		</if>
+		and g.DELETE_STATUS !=1
+		<if test="pd.partner!= null and pd.partner != ''"> <!-- 合伙人-->
+			and g.GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="pd.vip!= null and pd.vip != ''"> <!-- VIP-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="pd.agent!= null and pd.agent != ''"> <!-- 代理商-->
+			and g.GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="pd.common!= null and pd.common != ''"> <!-- 普通用户-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="pd.members!= null and pd.members != ''"> <!-- 付费会员-->
+			and g.GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="pd.SEQENCE!= null and pd.SEQENCE != ''"> <!-- 综合排序 -->
+			order by g.SEQENCE ASC
+		</if>
+		<if test="pd.SALES_VOLUME!= null and pd.SALES_VOLUME != ''"> <!-- 销量排序 -->
+			order by g.SALES_VOLUME DESC
+		</if>
+		<if test="pd.CURRENT_PRICE!= null and pd.CURRENT_PRICE != ''"> <!-- 价格排序 -->
+			order by g.CURRENT_PRICE ASC
+		</if>
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		p.PATH
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN tb_pictures p on o.PICTURE_ID=p.PICTURES_ID
+		where 1=1
+		<if test="GOODS_POSITION!=null">
+			and GOODS_POSITION=#{GOODS_POSITION}
+		</if>
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			GOODS_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+
+	<!-- 删除商品 -->
+	<update id="deleteGoods" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			DELETE_STATUS=1
+		where
+		GOODS_ID = #{GOODS_ID}
+	</update>
+
+	<!-- 批量删除商品 -->
+	<update id="deleteAllGoods" parameterType="String">
+		update
+		<include refid="tableName"></include>
+		set
+			DELETE_STATUS=1
+		where
+			GOODS_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</update>
+	
+	<!-- 购买成功，增加销量 -->
+	<update id="editVolume" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			SALES_VOLUME = SALES_VOLUME + #{AMOUNT}
+		where
+		GOODS_ID = #{GOODS_ID}
+	</update>
+	
+	<!-- 首页轮播图 -->
+	<select id="listBroadcast" parameterType="pd" resultType="pd">
+		select
+			GOODS_ID,
+			GOODS_NAME
+		from
+			zlp_goods
+		where
+			 DELETE_STATUS !=1
+		<if test="partner!= null and partner != ''"> <!-- 合伙人-->
+			and GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="vip!= null and vip != ''"> <!-- VIP-->
+			and GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="agent!= null and agent != ''"> <!-- 代理商-->
+			and GOODS_POSITION IN (0,1,4,5,6,7)
+		</if>
+		<if test="common!= null and common != ''"> <!-- 普通用户-->
+			and GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		<if test="members!= null and members != ''"> <!-- 付费会员-->
+			and GOODS_POSITION IN (0,4,5,6,7)
+		</if>
+		and IS_BROADCAST = 1
+	</select>
+	
+</mapper>

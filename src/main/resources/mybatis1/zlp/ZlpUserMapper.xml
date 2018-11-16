@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ZlpUserMapper">
+
+	<!--表名 -->
+	<sql id="tableName">
+		ZLP_APP_USER
+	</sql>
+
+	<!-- 字段 -->
+	<sql id="Field">
+		USER_ID,
+		PHONE_NUMBER,
+		NICK_NAME,
+		INVITE_CODE,
+		PARENT_ID,
+		ROLE,
+		CREATE_DATE,
+		CREATE_USER,
+		UPDATE_DATE,
+		UPDATE_USER,
+		DELETE_STATUS,
+		PASSWORD,
+		PICTURE_ID,
+		SEX,
+		INTEGRATION,
+		PARTNER_USER_ID,
+		MONEY,
+		SOLAR_BIRTHDAY,
+		LUNAR_BRITHDAY,
+		NEXT_LUNAR_BRITHDAY,
+		NEXT_SOLAR_BRITHDAY,
+		REMIND_TYPE,
+		ALIPAY,
+		NEXT_LB_DAYS,
+		NEXT_SB_DAYS,
+		ADVANCE_DATE_COUNT,
+		TOKEN,
+		OPENID,
+		ALIPAYNAME
+	</sql>
+	<!-- 带别名字段 -->
+	<sql id="FieldWithAlias">
+		o.USER_ID,
+		o.PHONE_NUMBER,
+		o.NICK_NAME,
+		o.INVITE_CODE,
+		o.PARENT_ID,
+		o.ROLE,
+		o.CREATE_DATE,
+		o.CREATE_USER,
+		o.UPDATE_DATE,
+		o.UPDATE_USER,
+		o.DELETE_STATUS,
+		o.PASSWORD,
+		o.PICTURE_ID,
+		o.SEX,
+		o.INTEGRATION,
+		o.PARTNER_USER_ID,
+		o.MONEY,
+		o.SOLAR_BIRTHDAY,
+		o.LUNAR_BRITHDAY,
+		o.NEXT_LUNAR_BRITHDAY,
+		o.NEXT_SOLAR_BRITHDAY,
+		o.REMIND_TYPE,
+		o.ALIPAY,
+		o.NEXT_LB_DAYS,
+		o.NEXT_SB_DAYS,
+		o.ADVANCE_DATE_COUNT,
+		o.TOKEN,
+		o.OPENID,
+		o.ALIPAYNAME
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{USER_ID},
+		#{PHONE_NUMBER},
+		#{NICK_NAME},
+		#{INVITE_CODE},
+		#{PARENT_ID},
+		#{ROLE},
+		#{CREATE_DATE},
+		#{CREATE_USER},
+		#{UPDATE_DATE},
+		#{UPDATE_USER},
+		#{DELETE_STATUS},
+		#{PASSWORD},
+		#{PICTURE_ID},
+		#{SEX},
+		#{INTEGRATION},
+		#{PARTNER_USER_ID},
+		#{MONEY},
+		#{SOLAR_BIRTHDAY},
+		#{LUNAR_BRITHDAY},
+		#{NEXT_LUNAR_BRITHDAY},
+		#{NEXT_SOLAR_BRITHDAY},
+		#{REMIND_TYPE},
+		#{ALIPAY},
+		#{NEXT_LB_DAYS},
+		#{NEXT_SB_DAYS},
+		#{ADVANCE_DATE_COUNT},
+		#{TOKEN},
+		#{OPENID},
+		#{ALIPAYNAME}
+
+	</sql>
+
+	<!-- 新增-->
+	<insert id="save" keyProperty="USER_ID" useGeneratedKeys="true" parameterType="pd">
+		insert into
+	<include refid="tableName"></include>
+		(
+	<include refid="Field"></include>
+		) values (
+	<include refid="FieldValue"></include>
+		)
+	</insert>
+
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from
+		<include refid="tableName"></include>
+		where
+			USER_ID = #{USER_ID}
+	</delete>
+
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			<if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
+			PHONE_NUMBER = #{PHONE_NUMBER},
+			</if>
+			<if test="NICK_NAME != null and NICK_NAME != ''">
+			NICK_NAME = #{NICK_NAME},
+			</if>
+			<if test="INVITE_CODE != null and INVITE_CODE != ''">
+			INVITE_CODE = #{INVITE_CODE},
+			</if>
+			<if test="PARENT_ID != null and PARENT_ID != ''">
+			PARENT_ID = #{PARENT_ID},
+			</if>
+			<if test="ROLE != null and ROLE != ''">
+			ROLE = #{ROLE},
+			</if>
+			<if test="CREATE_DATE != null and CREATE_DATE != ''">
+			CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="CREATE_USER != null and CREATE_USER != ''">
+			CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="UPDATE_DATE != null and UPDATE_DATE != ''">
+			UPDATE_DATE = #{UPDATE_DATE},
+			</if>
+			<if test="UPDATE_USER != null and UPDATE_USER != ''">
+			UPDATE_USER = #{UPDATE_USER},
+			</if>
+			<if test="DELETE_STATUS != null and DELETE_STATUS != ''">
+			DELETE_STATUS = #{DELETE_STATUS},
+			</if>
+			<if test="PASSWORD != null and PASSWORD != ''">
+			PASSWORD = #{PASSWORD},
+			</if>
+			<if test="PICTURE_ID != null and PICTURE_ID != ''">
+			PICTURE_ID = #{PICTURE_ID},
+			</if>
+			<if test="SEX != null and SEX != ''">
+			SEX = #{SEX},
+			</if>
+			<if test="INTEGRATION != null">
+			INTEGRATION = #{INTEGRATION},
+			</if>
+			<if test="PARTNER_USER_ID != null and PARTNER_USER_ID != ''">
+			PARTNER_USER_ID = #{PARTNER_USER_ID},
+			</if>
+			<if test="MONEY != null">
+			MONEY = #{MONEY},
+			</if>
+			<if test="SOLAR_BIRTHDAY!=NULL and SOLAR_BIRTHDAY!=''">
+			SOLAR_BIRTHDAY = #{SOLAR_BIRTHDAY},
+			</if>
+			<if test="LUNAR_BRITHDAY!=NULL and LUNAR_BRITHDAY!=''">
+			LUNAR_BRITHDAY = #{LUNAR_BRITHDAY},
+			</if>
+			<if test="NEXT_LUNAR_BRITHDAY!=null and NEXT_LUNAR_BRITHDAY!=''">
+			NEXT_LUNAR_BRITHDAY = #{NEXT_LUNAR_BRITHDAY},
+			</if>
+			<if test="NEXT_SOLAR_BRITHDAY!=null and NEXT_SOLAR_BRITHDAY!=''">
+			NEXT_SOLAR_BRITHDAY = #{NEXT_SOLAR_BRITHDAY},
+			</if>
+
+			<if test="REMIND_TYPE!=null and REMIND_TYPE!=''">
+			REMIND_TYPE = #{REMIND_TYPE},
+			</if>
+			<if test="ALIPAY!=null and ALIPAY!=''">
+			ALIPAY = #{ALIPAY},
+			</if>
+			<if test="NEXT_LB_DAYS!=null">
+			NEXT_LB_DAYS = #{NEXT_LB_DAYS},
+			</if>
+			<if test="NEXT_SB_DAYS!=null">
+			NEXT_SB_DAYS = #{NEXT_SB_DAYS},
+			</if>
+			<if test="ADVANCE_DATE_COUNT!=null and ADVANCE_DATE_COUNT!=''">
+			ADVANCE_DATE_COUNT = #{ADVANCE_DATE_COUNT},
+			</if>
+			<if test="ALIPAYNAME!=null and ALIPAYNAME!=''">
+			ALIPAYNAME = #{ALIPAYNAME},
+			</if>
+			<if test="OPENID!=null and OPENID!=''">
+			OPENID = #{OPENID},
+			</if>
+			USER_ID=USER_ID
+		where
+		USER_ID = #{USER_ID}
+	</update>
+	<!-- 忘记密码，通过手机号修改密码 -->
+	<update id="updatePassword" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			<if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
+			PHONE_NUMBER = #{PHONE_NUMBER},
+			</if>
+			<if test="PASSWORD != null and PASSWORD != ''">
+			PASSWORD = #{PASSWORD},
+			</if>
+			PHONE_NUMBER=PHONE_NUMBER
+		where
+		<if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
+			PHONE_NUMBER = #{PHONE_NUMBER}
+		</if>
+	</update>
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select
+		<include refid="FieldWithAlias"></include>,
+		p.PATH
+		from
+		<include refid="tableName"></include> o
+		LEFT JOIN tb_pictures p on o.PICTURE_ID=p.PICTURES_ID
+		where 1=1
+		<if test="USER_ID!=null and USER_ID!=''">
+				and	o.USER_ID = #{USER_ID}
+		</if>
+		<if test="PHONE_NUMBER!=null and PHONE_NUMBER!=''">
+				and	o.PHONE_NUMBER = #{PHONE_NUMBER}
+		</if>
+		<if test="INVITE_CODE!=null and INVITE_CODE!=''">
+				and	o.INVITE_CODE = #{INVITE_CODE}
+		</if>
+		<if test="PASSWORD!=null and PASSWORD!=''">
+				and	o.PASSWORD = #{PASSWORD}
+		</if>
+		<if test="ROLE!=null and ROLE!=''">
+				and	o.ROLE = #{ROLE}
+		</if>
+		<if test="TOKEN!=null and TOKEN!=''">
+				and	o.TOKEN = #{TOKEN}
+		</if>
+		<if test="OPENID!=null and OPENID!=''">
+				and	o.OPENID = #{OPENID}
+		</if>
+	</select>
+
+
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+			SELECT
+			t1.USER_ID,
+			t1.PHONE_NUMBER,
+			t1.NICK_NAME,
+			t1.INVITE_CODE,
+			t1.PARENT_ID,
+			t1.ROLE,
+			t1.CREATE_DATE,
+			t1.CREATE_USER,
+			t1.UPDATE_DATE,
+			t1.UPDATE_USER,
+			t1.DELETE_STATUS,
+			t1.PASSWORD,
+			t1.PICTURE_ID,
+			t1.SEX,
+			t1.INTEGRATION,
+			t1.PARTNER_USER_ID,
+			t1.MONEY,
+			t1.SOLAR_BIRTHDAY,
+			t1.LUNAR_BRITHDAY,
+			t1.NEXT_LUNAR_BRITHDAY,
+			t1.NEXT_SOLAR_BRITHDAY,
+			t1.REMIND_TYPE,
+			t1.ALIPAY,
+			t1.NEXT_LB_DAYS,
+			t1.NEXT_SB_DAYS,
+			t1.ADVANCE_DATE_COUNT,
+			t2.nick_name AS PARENT_NAME,
+			t3.nick_name AS PARTNER_NAME,
+			t2.phone_number as PARENT_PHONE_NUMBER,
+			t3.phone_number as PARTNER_PHONE_NUMBER,
+			p.PATH
+		FROM
+		zlp_app_user t1
+		LEFT JOIN zlp_app_user t2 ON t1.parent_id = t2.user_id
+		LEFT JOIN zlp_app_user t3 ON t1.partner_user_id = t3.user_id
+		LEFT JOIN tb_pictures p ON t1.picture_id = p.pictures_id
+		WHERE 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				(
+				<!--	根据需求自己加检索条件 -->
+					t1.NICK_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				)
+		</if>
+		<if test="pd.lastStart!= null and pd.lastStart != ''">
+			and t1.create_date &gt;= #{pd.lastStart}
+		</if>
+		<if test="pd.lastEnd!= null and pd.lastEnd != ''">
+			and	t1.TO_DAYS(create_date) &lt;= TO_DAYS(#{pd.lastEnd})
+		</if>
+		<if test="pd.USER_ID!= null and pd.USER_ID != ''">
+			and t1.PARENT_ID = #{pd.USER_ID}
+		</if>
+		<if test="pd.role!= null and pd.role != ''">
+			and t1.ROLE = #{pd.role}
+		</if>
+		<if test="pd.sex!= null and pd.sex != ''">
+			and t1.SEX = #{pd.sex}
+		</if>
+		ORDER BY t1.create_date desc
+	</select>
+
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		SELECT
+			t1.USER_ID,
+			t1.PHONE_NUMBER,
+			t1.NICK_NAME,
+			t1.INVITE_CODE,
+			t1.PARENT_ID,
+			t1.ROLE,
+			t1.CREATE_DATE,
+			t1.CREATE_USER,
+			t1.UPDATE_DATE,
+			t1.UPDATE_USER,
+			t1.DELETE_STATUS,
+			t1.PASSWORD,
+			t1.PICTURE_ID,
+			t1.SEX,
+			t1.INTEGRATION,
+			t1.PARTNER_USER_ID,
+			t1.MONEY,
+			t1.SOLAR_BIRTHDAY,
+			t1.LUNAR_BRITHDAY,
+			t1.NEXT_LUNAR_BRITHDAY,
+			t1.NEXT_SOLAR_BRITHDAY,
+			t1.REMIND_TYPE,
+			t1.ALIPAY,
+			t1.NEXT_LB_DAYS,
+			t1.NEXT_SB_DAYS,
+			t1.ADVANCE_DATE_COUNT,
+			t2.nick_name AS PARENT_NAME,
+			t3.nick_name AS PARTNER_NAME,
+			t2.phone_number as PARENT_PHONE_NUMBER,
+			t3.phone_number as PARTNER_PHONE_NUMBER,
+			p.PATH
+		FROM
+			zlp_app_user t1
+		LEFT JOIN zlp_app_user t2 ON t1.parent_id = t2.user_id
+		LEFT JOIN zlp_app_user t3 ON t1.partner_user_id = t3.user_id
+		LEFT JOIN tb_pictures p ON t1.picture_id = p.pictures_id
+		ORDER BY t1.create_date desc
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+			USER_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+
+	<!-- 用户详情 -->
+	<select id="userDetail" parameterType="pd" resultType="pd">
+		SELECT
+			u.USER_ID,
+			u.PHONE_NUMBER,
+			u.NICK_NAME,
+			u.INVITE_CODE,
+			u.PARENT_ID,
+			u.ROLE,
+			u.CREATE_DATE,
+			u.CREATE_USER,
+			u.UPDATE_DATE,
+			u.UPDATE_USER,
+			u.DELETE_STATUS,
+			u.PASSWORD,
+			u.PICTURE_ID,
+			u.SEX,
+			u.INTEGRATION,
+			u.PARTNER_USER_ID,
+			u.MONEY,
+			u.SOLAR_BIRTHDAY,
+			u.LUNAR_BRITHDAY,
+			u.NEXT_LUNAR_BRITHDAY,
+			u.NEXT_SOLAR_BRITHDAY,
+			u.REMIND_TYPE,
+			u.ALIPAY,
+			u.NEXT_LB_DAYS,
+			u.NEXT_SB_DAYS,
+			u.ADVANCE_DATE_COUNT,
+			p.PATH,
+			u1.nick_name as PARENT_NAME,
+			u2.nick_name as PARTNER_USER_NAME,
+			u1.phone_number as PARENT_PHONE_NUMBER,
+			u2.phone_number as PARTNER_PHONE_NUMBER
+		FROM
+		zlp_app_user u
+		LEFT JOIN zlp_app_user u1 ON u.parent_id = u1.user_id
+		LEFT JOIN zlp_app_user u2 ON u.partner_user_id = u2.user_id
+		LEFT JOIN tb_pictures p ON u.picture_id = p.pictures_id
+		WHERE
+			u.USER_ID = #{USER_ID}
+	</select>
+
+	<!-- 查看用户下级 -->
+	<select id="datalistPage1" parameterType="page" resultType="pd">
+		SELECT
+			<include refid="Field"></include>,
+			p.PATH
+		FROM
+			<include refid="tableName"></include> u
+		LEFT JOIN tb_pictures p ON u.picture_id = p.pictures_id
+		WHERE
+			u.PARENT_ID = #{pd.USER_ID}
+	</select>
+
+	<!-- 查看用户下级 -->
+	<select id="datalistPage2" parameterType="page" resultType="pd">
+		SELECT
+			<include refid="Field"></include>
+		FROM
+			<include refid="tableName"></include> u
+		<where>
+			<if test="pd.ROLE!= null and pd.ROLE != ''">
+				u.ROLE=#{pd.ROLE}
+			</if>
+		</where>
+	</select>
+
+	<!-- 兑换商品成功，减少用户礼豆数量 -->
+	<update id="updateIntegration" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			INTEGRATION = INTEGRATION - #{INTEGRATION}
+		where
+			USER_ID = #{USER_ID}
+	</update>
+	<!-- 修改用户角色 -->
+	<update id="editRole" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+		ROLE = #{ROLE}		
+		where
+			USER_ID = #{USER_ID}
+	</update>
+	
+	
+	<!-- 清空最近合伙人 -->
+	<update id="editPartner" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+		PARTNER_USER_ID = null		
+		where
+			PARTNER_USER_ID = #{USER_ID}
+	</update>
+	
+
+</mapper>

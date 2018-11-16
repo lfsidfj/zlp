@@ -1,0 +1,39 @@
+﻿/* CSS Document */
+@charset "utf-8";
+/*全局*/
+h1, h2, h3, h4, h5, h6, hr, p, dl, dt, dd, ul, ol, li, form, button, input, textarea, fieldset ,legend{margin:0;padding:0}
+h1, h2, h3, h4, h5, h6, button, input, select, textarea{font-size:100%}
+body {margin: 0;padding: 0;font-size:100%;color: #333;  font-family:"Microsoft YaHei", "微软雅黑", "宋体", Arial, Helvetica, sans-serif; }
+@media only screen and (max-width: 1920px) { body{ font-size:38px; }}
+@media only screen and (max-width: 1336px) { body{ font-size:36px; }}
+@media only screen and (max-width: 1280px) { body{ font-size:34px; }}
+@media only screen and (max-width: 1024px) { body{ font-size:32px; }}
+@media only screen and (max-width: 828px) { body{ font-size:28px; }}
+@media only screen and (max-width: 768px) { body{ font-size:28px; }}
+@media only screen and (max-width: 750px) { body{ font-size:28px; }}
+@media only screen and (max-width: 720px) { body{ font-size:24px; }}
+@media only screen and (max-width: 640px) { body{ font-size:20px; }}
+@media only screen and (max-width: 480px) { body{ font-size:14px; }}
+@media only screen and (max-width: 320px) { body{ font-size:12px; }}
+@media only screen and (max-width: 300px) { body{ font-size:12px; }}
+a:link{color: #333;text-decoration: none;}
+
+/*==============================================================================*/
+/*咨询
+/*==============================================================================*/
+.zixuntext{ text-align:center}
+
+#indicator > li.active {background:#196ed2;}
+#indicator > li:last-child {margin:0 8px 0 0;}/*==============================================================================*/
+/*公告
+/*==============================================================================*/
+.tabslider{width:94%; padding:3%;}
+
+
+
+.tabslider li span,.tabslider .hidden div span{display:block;width:100%;color:#C5C5C5;text-align:right;font-size:0.875em; padding:1% 0;}
+.tabslider li{padding:3% 0;border-bottom:solid 1px #EFEFEF;}
+
+
+
+
