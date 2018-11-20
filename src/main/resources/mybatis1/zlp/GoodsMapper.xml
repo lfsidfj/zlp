@@ -99,7 +99,9 @@
 			DELETE_STATUS,
 			FAVORITE_NUMBER,
 			IS_BROADCAST,
-			IS_INDEX
+			IS_INDEX,
+			ACTIVITY_ID,
+			BRAND_ID
 		) values (
 			#{GOODS_TYPE_ID},
 			#{GOODS_NAME},
@@ -118,7 +120,9 @@
 			#{DELETE_STATUS},
 			#{FAVORITE_NUMBER},
 			#{IS_BROADCAST},
-			#{IS_INDEX}
+			#{IS_INDEX},
+			#{ACTIVITY_ID},
+			#{BRAND_ID}
 		)
 	</insert>
 
@@ -149,6 +153,8 @@
 			FAVORITE_NUMBER = #{FAVORITE_NUMBER},
 			IS_BROADCAST = #{IS_BROADCAST},
 			IS_INDEX = #{IS_INDEX},
+			ACTIVITY_ID = #{ACTIVITY_ID},
+			BRAND_ID = #{BRAND_ID},
 		GOODS_ID = GOODS_ID
 		where
 		GOODS_ID = #{GOODS_ID}
@@ -172,10 +178,16 @@
 			g.DELETE_STATUS,
 			g.IS_BROADCAST,
 			g.IS_INDEX,
-			p.PATH
+			p.PATH,
+			A.ACTIVITY_ID,
+			A.ACTIVITY_NAME,
+			B.BRAND_ID,
+			B.BRAND_NAME
 		from
 		zlp_goods g
 		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		LEFT JOIN ZLP_ACTIVITY A ON A.ACTIVITY_ID = g.ACTIVITY_ID
+		LEFT JOIN ZLP_BRAND B ON B.BRAND_ID = g.BRAND_ID
 		where
 			GOODS_ID = #{GOODS_ID}
 	</select>
@@ -199,11 +211,17 @@
 			g.IS_BROADCAST,
 			g.IS_INDEX,
 			t.TYPE_NAME,
-			p.PATH
+			p.PATH,
+			A.ACTIVITY_ID,
+			A.ACTIVITY_NAME,
+			B.BRAND_ID,
+			B.BRAND_NAME
 		from
 		zlp_goods g
 		LEFT JOIN zlp_goods_type t on t.GOODS_TYPE_ID = g.GOODS_TYPE_ID
 		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
+		LEFT JOIN ZLP_ACTIVITY A ON A.ACTIVITY_ID = g.ACTIVITY_ID
+		LEFT JOIN ZLP_BRAND B ON B.BRAND_ID = g.BRAND_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
@@ -216,6 +234,12 @@
 		</if>
 		<if test="pd.GOODS_POSITION!= null and pd.GOODS_POSITION != ''"><!-- 商品类型 -->
 			and g.GOODS_POSITION = #{pd.GOODS_POSITION}
+		</if>
+		<if test="pd.ACTIVITY_ID!= null and pd.ACTIVITY_ID != ''"><!-- 商品活动 -->
+			and g.ACTIVITY_ID = #{pd.ACTIVITY_ID}
+		</if>
+		<if test="pd.BRAND_ID!= null and pd.BRAND_ID != ''"><!-- 商品品牌 -->
+			and g.BRAND_ID = #{pd.BRAND_ID}
 		</if>
 		<if test="pd.IS_INDEX!= null and pd.IS_INDEX != ''"><!-- 首页展示 -->
 			and g.IS_INDEX = 1

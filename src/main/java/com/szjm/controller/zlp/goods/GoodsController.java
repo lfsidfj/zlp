@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.szjm.service.zlp.activity.ActivityManager;
+import com.szjm.service.zlp.brand.BrandManager;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -59,7 +61,12 @@ public class GoodsController extends BaseController {
 	// 购物车
 	@Resource(name = "cartService")
 	private CartManager cartService;
-
+	// 商品活动管理
+    @Resource(name="activityService")
+    private ActivityManager activityService;
+     // 商品品牌管理
+    @Resource(name="brandService")
+    private BrandManager brandService;
 	/**
 	 * 保存
 	 * 
@@ -202,10 +209,14 @@ public class GoodsController extends BaseController {
 		}
 		page.setPd(pd);
 		List<PageData> varList = goodsService.list(page); // 列出Goods列表
-		List<PageData> typeList = goodstypeService.listAll(pd);
+		List<PageData> typeList = goodstypeService.listAll(pd); //商品类目
+        List<PageData> activityList =  activityService.listAll(pd); // 商品活动
+        List<PageData> brandList =  brandService.listAll(pd); // 商品品牌
 		mv.setViewName("zlp/goods/goods_list");
 		mv.addObject("varList", varList);
 		mv.addObject("typeList", typeList);
+        mv.addObject("activityList",activityList);
+        mv.addObject("brandList",brandList);
 		mv.addObject("pd", pd);
 		mv.addObject("QX", Jurisdiction.getHC()); // 按钮权限
 		return mv;
@@ -222,15 +233,20 @@ public class GoodsController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<PageData> typeList = goodstypeService.listAll(pd);
-		List<PageData> specList = specService.listAll(pd);
-		mv.setViewName("zlp/goods/goods_add");
+		List<PageData> typeList = goodstypeService.listAll(pd); // 商品类目
+		List<PageData> specList = specService.listAll(pd); // 商品规格
+		List<PageData> activityList =  activityService.listAll(pd); // 商品活动
+        List<PageData> brandList =  brandService.listAll(pd); // 商品品牌
+		mv.setViewName("zlp/goods/goods_detail");
 		mv.addObject("msg", "save");
 		mv.addObject("typeList", typeList);
 		mv.addObject("specList", specList);
+		mv.addObject("activityList",activityList);
+        mv.addObject("brandList",brandList);
 		mv.addObject("pd", pd);
 		return mv;
 	}
+
 
 	/**
 	 * 去修改页面
@@ -245,8 +261,10 @@ public class GoodsController extends BaseController {
 		pd = this.getPageData();
 
 		pd = goodsService.findById(pd); // 根据ID读取
-		List<PageData> typeList = goodstypeService.listAll(pd);
-		List<PageData> specList = specService.listAll(pd); // 所有规格
+        List<PageData> typeList = goodstypeService.listAll(pd); // 商品类目
+        List<PageData> specList = specService.listAll(pd); // 商品规格
+        List<PageData> activityList =  activityService.listAll(pd); // 商品活动
+        List<PageData> brandList =  brandService.listAll(pd); // 商品品牌
 
 		for (PageData pageData : specList) {
 			List<PageData> goodsSpeces = goodsspecService.listGoodsId(pd); // 当前商品规格
@@ -260,11 +278,13 @@ public class GoodsController extends BaseController {
 				}
 			}
 		}
-		mv.setViewName("zlp/goods/goods_edit");
+		mv.setViewName("zlp/goods/goods_detail");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		mv.addObject("typeList", typeList);
 		mv.addObject("specList", specList);
+        mv.addObject("activityList",activityList);
+        mv.addObject("brandList",brandList);
 		return mv;
 	}
 
@@ -322,9 +342,9 @@ public class GoodsController extends BaseController {
 		titles.add("商品名称"); // 3
 		titles.add("商品原价"); // 4
 		titles.add("商品现价"); // 5
-		titles.add("礼豆抵扣金额"); // 7
+		titles.add("积分抵扣金额"); // 7
 		titles.add("商品类型"); // 8
-		titles.add("所需礼豆"); // 9
+		titles.add("所需积分"); // 9
 		titles.add("商品小图"); // 10
 		titles.add("销量"); // 11
 		titles.add("商品详情"); // 12

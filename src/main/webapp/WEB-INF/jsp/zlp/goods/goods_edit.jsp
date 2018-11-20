@@ -37,10 +37,24 @@
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品类目:</td>
 								<td>
 									<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 220px;">
+										<option value=""></option>
+										<option value="">全部</option>
 										<c:forEach items="${typeList}" var="var" varStatus="vs">
 											<option value="${var.GOODS_TYPE_ID}" <c:if test="${pd.GOODS_TYPE_ID==var.GOODS_TYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
 										</c:forEach>
 									  </select>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">商品活动:</td>
+								<td style="vertical-align:top;padding-left:2px;">
+									<select class="chosen-select form-control" name="ACTIVITY_ID" id="ACTIVITY_ID" data-placeholder="请选择商品活动" style="vertical-align:top;width: 150px;">
+										<option value=""></option>
+										<option value="">全部</option>
+										<c:forEach items="${activityList}" var="var" varStatus="vs">
+											<option value="${var.ACTIVITY_ID}" <c:if test="${var.ACTIVITY_ID ==pd.ACTIVITY_ID}">selected="selected"</c:if>>${var.ACTIVITY_NAME}</option>
+										</c:forEach>
+									</select>
 								</td>
 							</tr>
 							<tr>
@@ -90,12 +104,12 @@
 								<td><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
 							</tr>
 							<tr id="neet_deduction">
-								<td style="width:75px;text-align: right;padding-top: 13px;">礼豆抵扣金额:</td>
-								<td><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入礼豆抵扣金额" title="礼豆抵扣金额" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">积分抵扣金额:</td>
+								<td><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入积分抵扣金额" title="积分抵扣金额" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
 							</tr>
 							<tr id="neet_integration">
-								<td style="width:75px;text-align: right;padding-top: 13px;">所需礼豆:</td>
-								<td><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需礼豆" title="所需礼豆" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">所需积分:</td>
+								<td><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需积分" title="所需积分" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
 							</tr>
 							<%-- <tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">销量:</td>
@@ -139,12 +153,14 @@
 	<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.all.js"></script>
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>
+    <!-- 删除时确认窗口 -->
+    <script type="text/javascript" src="static/ace/js/bootbox.js"></script>
 	<!-- 下拉框 -->
-	<script src="static/ace/js/chosen.jquery.js"></script>
+	<script type="text/javascript" src="static/ace/js/chosen.jquery.js"></script>
 	<!-- ace scripts -->
-	<script src="static/ace/js/ace/ace.js"></script>
+	<script type="text/javascript" src="static/ace/js/ace/ace.js"></script>
 	<!-- 日期框 -->
-	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 	<!--图片上传-->
@@ -301,7 +317,7 @@
 				if($("#DEDUCTION_MONEY").val()==""){
 					$("#DEDUCTION_MONEY").tips({
 						side:3,
-			            msg:'请输入礼豆抵扣金额',
+			            msg:'请输入积分抵扣金额',
 			            bg:'#AE81FF',
 			            time:2
 			        });
@@ -310,7 +326,7 @@
 				}else if(parseInt($("#DEDUCTION_MONEY").val())<0){
 					$("#DEDUCTION_MONEY").tips({
 							side:3,
-				            msg:'请输入正确礼豆抵扣金额',
+				            msg:'请输入正确积分抵扣金额',
 				            bg:'#AE81FF',
 				            time:2
 				        });
@@ -322,7 +338,7 @@
 				if($("#INTEGRATION").val()==""){
 					$("#INTEGRATION").tips({
 						side:3,
-			            msg:'请输入所需礼豆',
+			            msg:'请输入所需积分',
 			            bg:'#AE81FF',
 			            time:2
 			        });
@@ -331,7 +347,7 @@
 				}else if(parseInt($("#INTEGRATION").val())<0){
 					$("#INTEGRATION").tips({
 							side:3,
-				            msg:'请输入正确所需礼豆',
+				            msg:'请输入正确所需积分',
 				            bg:'#AE81FF',
 				            time:2
 				        });

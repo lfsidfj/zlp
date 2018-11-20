@@ -45,7 +45,7 @@
 <!-- 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td> -->
 								<td style="vertical-align:top;padding-left:2px;">
-									<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 150px;">
+									<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 180px;">
 										<option value=""></option>
 										<option value="">全部</option>
 										<c:forEach items="${typeList}" var="var" varStatus="vs">
@@ -62,6 +62,24 @@
 										<option value="2" <c:if test="${ 2  ==pd.GOODS_POSITION}">selected="selected"</c:if>>礼品定制</option>
 										<option value="3" <c:if test="${ 3  ==pd.GOODS_POSITION}">selected="selected"</c:if>>特价礼品</option>
 									  </select>
+								</td>
+								<td style="vertical-align:top;padding-left:2px;">
+									<select class="chosen-select form-control" name="ACTIVITY_ID" id="ACTIVITY_ID" data-placeholder="请选择商品活动" style="vertical-align:top;width: 140px;">
+										<option value=""></option>
+										<option value="">全部</option>
+										<c:forEach items="${activityList}" var="var" varStatus="vs">
+											<option value="${var.ACTIVITY_ID}" <c:if test="${var.ACTIVITY_ID ==pd.ACTIVITY_ID}">selected="selected"</c:if>>${var.ACTIVITY_NAME}</option>
+										</c:forEach>
+									</select>
+								</td>
+								<td style="vertical-align:top;padding-left:2px;">
+									<select class="chosen-select form-control" name="BRAND_ID" id="BRAND_ID" data-placeholder="请选择商品品牌" style="vertical-align:top;width: 140px;">
+										<option value=""></option>
+										<option value="">全部</option>
+										<c:forEach items="${brandList}" var="var" varStatus="vs">
+											<option value="${var.BRAND_ID}" <c:if test="${var.BRAND_ID ==pd.BRAND_ID}">selected="selected"</c:if>>${var.BRAND_NAME}</option>
+										</c:forEach>
+									</select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i></a></td>
@@ -87,8 +105,8 @@
 									<th class="center">商品小图</th>
 									<th class="center">商品原价</th>
 									<th class="center">商品现价</th>
-									<th class="center">礼豆抵扣金额</th>
-									<th class="center">所需礼豆</th>
+									<th class="center">积分抵扣金额</th>
+									<th class="center">所需积分</th>
 									<th class="center">销量</th>
 									<!-- <th class="center">商品详情</th> -->
 									<th class="center">排序</th>

@@ -43,6 +43,18 @@
 									  </select>
 								</td>
 							</tr>
+                            <tr>
+                                <td style="width:75px;text-align: right;padding-top: 13px;">商品活动:</td>
+                                <td style="vertical-align:top;padding-left:2px;">
+                                    <select class="chosen-select form-control" name="ACTIVITY_ID" id="ACTIVITY_ID" data-placeholder="请选择商品活动" style="vertical-align:top;width: 150px;">
+                                        <option value=""></option>
+                                        <option value="">全部</option>
+                                        <c:forEach items="${activityList}" var="var" varStatus="vs">
+                                            <option value="${var.ACTIVITY_ID}" <c:if test="${var.ACTIVITY_ID ==pd.ACTIVITY_ID}">selected="selected"</c:if>>${var.ACTIVITY_NAME}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品名称:</td>
 								<td><input type="text" name="GOODS_NAME" id="GOODS_NAME" value="${pd.GOODS_NAME}" maxlength="255" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
