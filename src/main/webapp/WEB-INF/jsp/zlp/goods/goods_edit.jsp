@@ -32,13 +32,13 @@
 						<input type="hidden" name="PICTURE_ID" id="PICTURE_ID" value="${pd.PICTURE_ID}"/>
 						<input type="hidden" name="CHECKIDS" id="CHECKIDS" value="${pd.CHECKIDS}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">
+						<table  class="table table-striped table-bordered table-hover">
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品类目:</td>
 								<td>
-									<select class="chosen-select form-control" name="GOODSTYPE_ID" id="GOODSTYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 220px;">
+									<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 220px;">
 										<c:forEach items="${typeList}" var="var" varStatus="vs">
-											<option value="${var.GOODSTYPE_ID}" <c:if test="${pd.GOODSTYPE_ID==var.GOODSTYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
+											<option value="${var.GOODS_TYPE_ID}" <c:if test="${pd.GOODS_TYPE_ID==var.GOODS_TYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
 										</c:forEach>
 									  </select>
 								</td>
@@ -88,10 +88,6 @@
 							<tr id="neet_current" >
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品现价:</td>
 								<td><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
-							</tr>
-							<tr id="neet_discount">
-								<td style="width:75px;text-align: right;padding-top: 13px;">商品折扣(百分比):</td>
-								<td><input type="text" name="DISCOUNT" id="DISCOUNT" value="${pd.DISCOUNT}" maxlength="10" placeholder="这里输入商品折扣" title="商品折扣" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
 							</tr>
 							<tr id="neet_deduction">
 								<td style="width:75px;text-align: right;padding-top: 13px;">礼豆抵扣金额:</td>
@@ -145,6 +141,8 @@
 	<%@ include file="../../system/index/foot.jsp"%>
 	<!-- 下拉框 -->
 	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- ace scripts -->
+	<script src="static/ace/js/ace/ace.js"></script>
 	<!-- 日期框 -->
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
@@ -204,14 +202,14 @@
 		$(top.hangge());
 		//保存
 		function save(){
-			if($("#GOODSTYPE_ID").val()==""){
-				$("#GOODSTYPE_ID").tips({
+			if($("#GOODS_TYPE_ID").val()==""){
+				$("#GOODS_TYPE_ID").tips({
 					side:3,
 		            msg:'请商品类型',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#GOODSTYPE_ID").focus();
+				$("#GOODS_TYPE_ID").focus();
 			return false;
 			}
 			if($("#GOODS_NAME").val()==""){
@@ -279,7 +277,7 @@
 				}
 			/* }
 			if(options==0||options==4||options==5||options==6){ // 普通商品 // 代理商礼包// VIP礼包// 合伙人礼包 */
-				if($("#DISCOUNT").val()==""){
+				/*if($("#DISCOUNT").val()==""){
 					$("#DISCOUNT").tips({
 						side:3,
 			            msg:'请输入商品折扣',
@@ -297,7 +295,7 @@
 				        });
 						$("#DISCOUNT").focus();
 					return false;
-				}
+				}*/
 			/* }
 			if(options==0||options==4||options==5||options==6){ // 普通商品 // 代理商礼包// VIP礼包// 合伙人礼包 */
 				if($("#DEDUCTION_MONEY").val()==""){

@@ -10,11 +10,10 @@
 	<!-- 字段 -->
 	<sql id="Field">
 		GOODS_ID,
-		GOODSTYPE_ID,
+		GOODS_TYPE_ID,
 		GOODS_NAME,
 		ORIGINAL_PRICE,
 		CURRENT_PRICE,
-		DISCOUNT,
 		DEDUCTION_MONEY,
 		GOODS_POSITION,
 		INTEGRATION,
@@ -34,11 +33,10 @@
 	<!-- 字段 -->
 	<sql id="FieldWithAlias">
 		o.GOODS_ID,
-		o.GOODSTYPE_ID,
+		o.GOODS_TYPE_ID,
 		o.GOODS_NAME,
 		o.ORIGINAL_PRICE,
 		o.CURRENT_PRICE,
-		o.DISCOUNT,
 		o.DEDUCTION_MONEY,
 		o.GOODS_POSITION,
 		o.INTEGRATION,
@@ -58,11 +56,10 @@
 	<!-- 字段值 -->
 	<sql id="FieldValue">
 		#{GOODS_ID},
-		#{GOODSTYPE_ID},
+		#{GOODS_TYPE_ID},
 		#{GOODS_NAME},
 		#{ORIGINAL_PRICE},
 		#{CURRENT_PRICE},
-		#{DISCOUNT},
 		#{DEDUCTION_MONEY},
 		#{GOODS_POSITION},
 		#{INTEGRATION},
@@ -85,11 +82,10 @@
 		insert into
 	<include refid="tableName"></include>
 		(
-			GOODSTYPE_ID,
+			GOODS_TYPE_ID,
 			GOODS_NAME,
 			ORIGINAL_PRICE,
 			CURRENT_PRICE,
-			DISCOUNT,
 			DEDUCTION_MONEY,
 			GOODS_POSITION,
 			INTEGRATION,
@@ -105,11 +101,10 @@
 			IS_BROADCAST,
 			IS_INDEX
 		) values (
-			#{GOODSTYPE_ID},
+			#{GOODS_TYPE_ID},
 			#{GOODS_NAME},
 			#{ORIGINAL_PRICE},
 			#{CURRENT_PRICE},
-			#{DISCOUNT},
 			#{DEDUCTION_MONEY},
 			#{GOODS_POSITION},
 			#{INTEGRATION},
@@ -140,11 +135,10 @@
 		update
 		<include refid="tableName"></include>
 		set
-			GOODSTYPE_ID = #{GOODSTYPE_ID},
+			GOODS_TYPE_ID = #{GOODS_TYPE_ID},
 			GOODS_NAME = #{GOODS_NAME},
 			ORIGINAL_PRICE = #{ORIGINAL_PRICE},
 			CURRENT_PRICE = #{CURRENT_PRICE},
-			DISCOUNT = #{DISCOUNT},
 			DEDUCTION_MONEY = #{DEDUCTION_MONEY},
 			INTEGRATION = #{INTEGRATION},
 			PICTURE_ID = #{PICTURE_ID},
@@ -164,11 +158,10 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select
 			g.GOODS_ID,
-			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_TYPE_ID as TYPE_ID,
 			g.GOODS_NAME,
 			g.ORIGINAL_PRICE,
 			g.CURRENT_PRICE,
-			g.DISCOUNT,
 			g.DEDUCTION_MONEY,
 			g.GOODS_POSITION,
 			g.INTEGRATION,
@@ -191,11 +184,10 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
 			g.GOODS_ID,
-			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_TYPE_ID as TYPE_ID,
 			g.GOODS_NAME,
 			g.ORIGINAL_PRICE,
 			g.CURRENT_PRICE,
-			g.DISCOUNT,
 			g.DEDUCTION_MONEY,
 			g.GOODS_POSITION,
 			g.INTEGRATION,
@@ -210,7 +202,7 @@
 			p.PATH
 		from
 		zlp_goods g
-		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN zlp_goods_type t on t.GOODS_TYPE_ID = g.GOODS_TYPE_ID
 		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -219,8 +211,8 @@
 					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
-			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		<if test="pd.GOODS_TYPE_ID!= null and pd.GOODS_TYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODS_TYPE_ID = #{pd.GOODS_TYPE_ID}
 		</if>
 		<if test="pd.GOODS_POSITION!= null and pd.GOODS_POSITION != ''"><!-- 商品类型 -->
 			and g.GOODS_POSITION = #{pd.GOODS_POSITION}
@@ -236,11 +228,10 @@
 	<select id="datalistPage1" parameterType="page" resultType="pd">
 		select
 			g.GOODS_ID,
-			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_TYPE_ID as TYPE_ID,
 			g.GOODS_NAME,
 			g.ORIGINAL_PRICE,
 			g.CURRENT_PRICE,
-			g.DISCOUNT,
 			g.DEDUCTION_MONEY,
 			g.GOODS_POSITION,
 			g.INTEGRATION,
@@ -255,7 +246,7 @@
 			p.PATH
 		from
 		zlp_goods g
-		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN zlp_goods_type t on t.GOODS_TYPE_ID = g.GOODS_TYPE_ID
 		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -264,8 +255,8 @@
 					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
-			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		<if test="pd.GOODS_TYPE_ID!= null and pd.GOODS_TYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODS_TYPE_ID = #{pd.GOODS_TYPE_ID}
 		</if>
 		<if test="pd.partner!= null and pd.partner != ''"> <!-- 合伙人-->
 			and g.GOODS_POSITION IN (0,1,4,5,6,7)
@@ -290,11 +281,10 @@
 	<select id="datalistPage2" parameterType="page" resultType="pd">
 		select
 			g.GOODS_ID,
-			g.GOODSTYPE_ID as TYPE_ID,
+			g.GOODS_TYPE_ID as TYPE_ID,
 			g.GOODS_NAME,
 			g.ORIGINAL_PRICE,
 			g.CURRENT_PRICE,
-			g.DISCOUNT,
 			g.DEDUCTION_MONEY,
 			g.GOODS_POSITION,
 			g.INTEGRATION,
@@ -309,7 +299,7 @@
 			p.PATH
 		from
 		zlp_goods g
-		LEFT JOIN zlp_goods_type t on t.GOODSTYPE_ID = g.GOODSTYPE_ID
+		LEFT JOIN zlp_goods_type t on t.GOODS_TYPE_ID = g.GOODS_TYPE_ID
 		LEFT JOIN tb_pictures p on g.PICTURE_ID=p.PICTURES_ID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -318,8 +308,8 @@
 					g.GOODS_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
 				)
 		</if>
-		<if test="pd.GOODSTYPE_ID!= null and pd.GOODSTYPE_ID != ''"> <!-- 商品类目 -->
-			and g.GOODSTYPE_ID = #{pd.GOODSTYPE_ID}
+		<if test="pd.GOODS_TYPE_ID!= null and pd.GOODS_TYPE_ID != ''"> <!-- 商品类目 -->
+			and g.GOODS_TYPE_ID = #{pd.GOODS_TYPE_ID}
 		</if>
 		and g.DELETE_STATUS !=1
 		<if test="pd.partner!= null and pd.partner != ''"> <!-- 合伙人-->

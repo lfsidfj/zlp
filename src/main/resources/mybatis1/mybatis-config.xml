@@ -15,7 +15,7 @@
 		<typeAlias type="com.szjm.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.szjm.entity.system.Dictionaries" alias="Dictionaries"/>
 		<typeAlias type="com.szjm.entity.system.Department" alias="Department"/>
-		<typeAlias type="com.szjm.entity.zlp.ContractType" alias="ContractType"/>
+		<typeAlias type="com.szjm.entity.zlp.GoodsType" alias="GoodsType"/>
 		<!-- 这里添加生成的实体类 -->
 		
 		

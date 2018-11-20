@@ -4,19 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 /** 
- * 说明：合同分类 实体类
- * 创建人：FB
+ * 说明：商品分类 实体类
  * 创建时间：2017-07-31
  */
-public class ContractType implements Serializable {
+public class GoodsType implements Serializable {
 	
-	private String CONTRACTTYPE_ID;	//主键
-	private String NAME;					//名称
+	private String GOODS_TYPE_ID;	//主键
+	private String TYPE_NAME;					//名称
 	private String PARENT_ID;				//父类ID
 	private String target;
-	private ContractType contracttype;
-	private List<ContractType> subContractType;
-	private boolean hasContractType = false;
+	private GoodsType Goodstype;
+	private List<GoodsType> subGoodsType;
+	private boolean hasGoodsType = false;
 	private String treeurl;
 	
 	private String STATUS;			//状态
@@ -62,17 +61,17 @@ public class ContractType implements Serializable {
 		this.DESCRIPTION = DESCRIPTION;
 	}
 
-	public String getCONTRACTTYPE_ID() {
-		return CONTRACTTYPE_ID;
+	public String getGOODS_TYPE_ID() {
+		return GOODS_TYPE_ID;
 	}
-	public void setCONTRACTTYPE_ID(String CONTRACTTYPE_ID) {
-		this.CONTRACTTYPE_ID = CONTRACTTYPE_ID;
+	public void setGOODS_TYPE_ID(String GOODS_TYPE_ID) {
+		this.GOODS_TYPE_ID = GOODS_TYPE_ID;
 	}
-	public String getNAME() {
-		return NAME;
+	public String getTYPE_NAME() {
+		return TYPE_NAME;
 	}
-	public void setNAME(String NAME) {
-		this.NAME = NAME;
+	public void setTYPE_NAME(String TYPE_NAME) {
+		this.TYPE_NAME = TYPE_NAME;
 	}
 	public String getPARENT_ID() {
 		return PARENT_ID;
@@ -86,23 +85,23 @@ public class ContractType implements Serializable {
 	public void setTarget(String target) {
 		this.target = target;
 	}
-	public ContractType getContractType() {
-		return contracttype;
+	public GoodsType getGoodsType() {
+		return Goodstype;
 	}
-	public void setContractType(ContractType contracttype) {
-		this.contracttype = contracttype;
+	public void setGoodsType(GoodsType Goodstype) {
+		this.Goodstype = Goodstype;
 	}
-	public List<ContractType> getSubContractType() {
-		return subContractType;
+	public List<GoodsType> getSubGoodsType() {
+		return subGoodsType;
 	}
-	public void setSubContractType(List<ContractType> subContractType) {
-		this.subContractType = subContractType;
+	public void setSubGoodsType(List<GoodsType> subGoodsType) {
+		this.subGoodsType = subGoodsType;
 	}
-	public boolean isHasContractType() {
-		return hasContractType;
+	public boolean isHasGoodsType() {
+		return hasGoodsType;
 	}
-	public void setHasContractType(boolean hasContractType) {
-		this.hasContractType = hasContractType;
+	public void setHasGoodsType(boolean hasGoodsType) {
+		this.hasGoodsType = hasGoodsType;
 	}
 	public String getTreeurl() {
 		return treeurl;

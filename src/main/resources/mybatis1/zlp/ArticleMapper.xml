@@ -44,6 +44,7 @@
             CREATE_USER,
             CREATE_DATE,
             IS_SHOW,
+			KEYWORDS,
             ARTICLE_CATEGORY_ID
 		) values (
             #{ARTICLE_NAME},
@@ -52,6 +53,7 @@
             #{CREATE_USER},
             #{CREATE_DATE},
             #{IS_SHOW},
+			#{KEYWORDS},
             #{ARTICLE_CATEGORY_ID}
 		)
 	</insert>
@@ -75,6 +77,7 @@
 			UPDATE_USER = #{UPDATE_USER},
 			UPDATE_DATE = #{UPDATE_DATE},
 			IS_SHOW = #{IS_SHOW},
+			KEYWORDS = #{KEYWORDS},
             ARTICLE_CATEGORY_ID = #{ARTICLE_CATEGORY_ID},
 		ARTICLE_ID = ARTICLE_ID
 		where 
@@ -93,6 +96,7 @@
             A.UPDATE_USER,
             A.UPDATE_DATE,
             A.IS_SHOW,
+			A.KEYWORDS,
             A.ARTICLE_CATEGORY_ID,
             C.CATEGORY_NAME
 		from

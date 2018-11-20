@@ -83,17 +83,6 @@ public class GoodsController extends BaseController {
 		String checkIds = pd.get("CHECKIDS") != null ? pd.get("CHECKIDS")
 				.toString() : "";
 		String[] ids = checkIds.split(",");
-		/*
-		 * int options = Integer.parseInt(pd.get("GOODS_POSITION").toString());
-		 * // 商品类型 if(options==0||options==4||options==5||options==6){ // 普通商品
-		 * // 代理商礼包// VIP礼包// 合伙人礼包 pd.put("INTEGRATION", 0); }else
-		 * if(options==1){ // 积分商品 pd.put("CURRENT_PRICE", 0);
-		 * pd.put("DISCOUNT", 0); pd.put("DEDUCTION_MONEY", 0); }else
-		 * if(options==2 || options==3){ // 免费送蛋糕商品 // 抽奖商品
-		 * pd.put("CURRENT_PRICE", 0); pd.put("DISCOUNT", 0);
-		 * pd.put("DEDUCTION_MONEY", 0); pd.put("INTEGRATION", 0); }
-		 */
-
 		goodsService.save(pd); // 商品保存
 		// 商品规格保存
 		for (String sid : ids) {
@@ -333,7 +322,6 @@ public class GoodsController extends BaseController {
 		titles.add("商品名称"); // 3
 		titles.add("商品原价"); // 4
 		titles.add("商品现价"); // 5
-		titles.add("商品折扣"); // 6
 		titles.add("礼豆抵扣金额"); // 7
 		titles.add("商品类型"); // 8
 		titles.add("所需礼豆"); // 9
@@ -357,7 +345,6 @@ public class GoodsController extends BaseController {
 			vpd.put("var3", varOList.get(i).getString("GOODS_NAME")); // 3
 			vpd.put("var4", varOList.get(i).getString("ORIGINAL_PRICE")); // 4
 			vpd.put("var5", varOList.get(i).getString("CURRENT_PRICE")); // 5
-			vpd.put("var6", varOList.get(i).getString("DISCOUNT")); // 6
 			vpd.put("var7", varOList.get(i).getString("DEDUCTION_MONEY")); // 7
 			vpd.put("var8", varOList.get(i).get("GOODS_POSITION").toString()); // 8
 			vpd.put("var9", varOList.get(i).get("INTEGRATION").toString()); // 9

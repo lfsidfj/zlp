@@ -27,25 +27,53 @@
 				<div class="row">
 					<div class="col-xs-12">
 					
-					<form action="goodstype/${msg }.do"  name="Form" id="Form" method="post">
-						<input type="hidden" name="GOODSTYPE_ID" id="GOODSTYPE_ID" value="${pd.GOODSTYPE_ID}"/>
-						<input type="hidden" name="TYPE_IMAGE" id="TYPE_IMAGE" value="${pd.TYPE_IMAGE}"/>
+					<form action="goodstype/${msg }.do" name="Form" id="Form" method="post">
+						<input type="hidden" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" value="${pd.GOODS_TYPE_ID}"/>
+						<input type="hidden" name="PARENT_ID" id="PARENT_ID" value="${null == pd.PARENT_ID ? GOODS_TYPE_ID:pd.PARENT_ID}"/>
 						<div id="zhongxin" style="padding-top: 13px;">
-						<table id="table_report" class="table table-striped table-bordered table-hover">	
+						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">类目名称:</td>
-								<td><input type="text" name="TYPE_NAME" id="TYPE_NAME" value="${pd.TYPE_NAME}" maxlength="255" placeholder="这里输入类目名称" title="类目名称" style="width:98%;"/></td>
-							</tr>
-							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">类目图片:</td>
+								<td style="width:79px;text-align: right;padding-top: 13px;">上级:</td>
 								<td>
-								<input  type="file" name="file" id="file" value="${pd.TYPE_IMAGE}" maxlength="255" placeholder="这里输入类目图片" title="类目图片" style="width:50%;"/>
-								<span style="color: red">建议上传图片大小为120x120像素，格式为jpg或png格式</span>
+									<div class="col-xs-4 label label-lg label-light arrowed-in arrowed-right">
+										<b>${null == pds.TYPE_NAME ?'(无) 此为顶级':pds.TYPE_NAME}</b>
+									</div>
 								</td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">类目排序:</td>
-								<td><input type="number" name="SEQENCE" id="SEQENCE" value="${pd.SEQENCE}" maxlength="32" placeholder="这里输入类目排序" title="类目排序" style="width:98%;"/></td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">名称:</td>
+								<td><input type="text" name="TYPE_NAME" id="TYPE_NAME" value="${pd.TYPE_NAME}"  placeholder="这里输入名称" title="名称" style="width:98%;"/></td>
+							</tr><%-- 
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">状态:</td>
+								<td><input type="text" name="STATUS" id="STATUS" value="${pd.STATUS}" maxlength="255" placeholder="这里输入状态" title="状态" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">创建人:</td>
+								<td><input type="text" name="CREATE_USER" id="CREATE_USER" value="${pd.CREATE_USER}" maxlength="255" placeholder="这里输入创建人" title="创建人" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">创建日期:</td>
+								<td><input type="text" name="CREATE_DATE" id="CREATE_DATE" value="${pd.CREATE_DATE}" maxlength="255" placeholder="这里输入创建日期" title="创建日期" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">修改人:</td>
+								<td><input type="text" name="MODIFY_USER" id="MODIFY_USER" value="${pd.MODIFY_USER}" maxlength="255" placeholder="这里输入修改人" title="修改人" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">修改日期:</td>
+								<td><input type="text" name="MODIFY_DATE" id="MODIFY_DATE" value="${pd.MODIFY_DATE}" maxlength="255" placeholder="这里输入修改日期" title="修改日期" style="width:98%;"/></td>
+							</tr> --%>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">描述:</td>
+								<td>
+								<%-- <input type="text" name="DESCRIPTION" id="DESCRIPTION" value="${pd.DESCRIPTION}" maxlength="255" placeholder="这里输入描述" title="描述" style="width:98%;"/> --%>
+								<textarea rows="5" cols="" name="DESCRIPTION" id="DESCRIPTION" placeholder="这里输入描述" title="描述" style="width:98%;">${pd.DESCRIPTION}</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">排序:</td>
+								<td><input type="number" name="ORDER_BY" id="ORDER_BY" value="${pd.ORDER_BY}" maxlength="255" placeholder="这里输入排序（值越小越靠前）" title="排序" style="width:98%;"/></td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -78,36 +106,6 @@
 	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
 	<!--提示框-->
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-	<!--图片上传-->
-	<script type="text/javascript" src="static/js/ajaxfileupload.js"></script>
-	<script type="text/javascript">
-		$("#file").change(function(){
-			upPhoto();
-			});
-		function upPhoto(){
-		    var url = "<%=basePath%>pictures/saveForUrl.do";//这里填请求的地址
-		    $.ajaxFileUpload({
-		        url : url,
-		        type : 'POST',
-		        fileElementId : 'file',  //这里对应html中上传file的id
-		        contentType:"application/json;charset=UTF-8",
-		        success: function(data){
-		            var str = $(data).find("body").text();//获取返回的字符串
-		            var json = $.parseJSON(str);//把字符串转化为json对象
-		            if(json.result=='ok'){
-		            	$("#TYPE_IMAGE").val(json.PICTURES_ID);
-		                //alert("上传成功"+json.PICTURES_ID);
-		            }
-		            else{
-		                alert("上传失败");
-		            }
-		        },
-		        error: function(){
-		            alert("请链接网络");
-		        }
-		    })
-		}
-		</script>
 		<script type="text/javascript">
 		$(top.hangge());
 		//保存
@@ -115,47 +113,88 @@
 			if($("#TYPE_NAME").val()==""){
 				$("#TYPE_NAME").tips({
 					side:3,
-		            msg:'请输入类目名称',
+		            msg:'请输入名称',
 		            bg:'#AE81FF',
 		            time:2
 		        });
 				$("#TYPE_NAME").focus();
+				return false;
+			}
+			if($("#STATUS").val()==""){
+				$("#STATUS").tips({
+					side:3,
+		            msg:'请输入状态',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#STATUS").focus();
 			return false;
 			}
-			if($("#TYPE_IMAGE").val()==""){
-				$("#file").tips({
+			if($("#CREATE_USER").val()==""){
+				$("#CREATE_USER").tips({
 					side:3,
-		            msg:'请选择图片，等待图片上传成功',
+		            msg:'请输入创建人',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#file").focus();
+				$("#CREATE_USER").focus();
 			return false;
-			} 
-			if($("#SEQENCE").val()==""){
-				$("#SEQENCE").tips({
+			}
+			if($("#CREATE_DATE").val()==""){
+				$("#CREATE_DATE").tips({
 					side:3,
-		            msg:'请输入类目排序',
+		            msg:'请输入创建日期',
 		            bg:'#AE81FF',
 		            time:2
 		        });
-				$("#SEQENCE").focus();
+				$("#CREATE_DATE").focus();
 			return false;
-			}else if(parseInt($("#SEQENCE").val())<=0){
-				$("#SEQENCE").tips({
-						side:3,
-			            msg:'请输入正数类目排序',
-			            bg:'#AE81FF',
-			            time:2
-			        });
-					$("#SEQENCE").focus();
-				return false;
+			}
+			if($("#MODIFY_USER").val()==""){
+				$("#MODIFY_USER").tips({
+					side:3,
+		            msg:'请输入修改人',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#MODIFY_USER").focus();
+			return false;
+			}
+			if($("#MODIFY_DATE").val()==""){
+				$("#MODIFY_DATE").tips({
+					side:3,
+		            msg:'请输入修改日期',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#MODIFY_DATE").focus();
+			return false;
+			}
+			if($("#DESCRIPTION").val()==""){
+				$("#DESCRIPTION").tips({
+					side:3,
+		            msg:'请输入描述',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#DESCRIPTION").focus();
+			return false;
+			}
+			if($("#ORDER_BY").val()==""){
+				$("#ORDER_BY").tips({
+					side:3,
+		            msg:'请输入排序',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#ORDER_BY").focus();
+			return false;
 			}
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
 		}
-
+		
 		$(function() {
 			//日期框
 			$('.date-picker').datepicker({autoclose: true,todayHighlight: true});

@@ -51,6 +51,10 @@
 									<script id="editor1" name="ARTICLE_CONTENT" type="text/plain" style="width:89%;height:180px;" ></script>
 								</td>
 							</tr>
+                            <tr>
+                                <td style="width:75px;text-align: right;padding-top: 13px;">关键词:</td>
+                                <td><input type="text" name="KEYWORDS" id="KEYWORDS" value="${pd.KEYWORDS}" maxlength="32" placeholder="这里输入关键词（以,结尾）" title="关键词" style="width:98%;"/></td>
+                            </tr>
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">排序:</td>
 								<td><input type="number" name="SEQENCE" id="SEQENCE" value="${pd.SEQENCE}" maxlength="32" placeholder="这里输入排序" title="排序" style="width:20%;"/></td>
@@ -58,7 +62,7 @@
 							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">是否展示:</td>
 								<td>
-									<select class="chosen-select form-control" name="IS_SHOW" id="IS_SHOW" data-placeholder="请选择是否展示" style="vertical-align:top;width: 220px;">
+									<select class="chosen-select form-control" name="IS_SHOW" id="IS_SHOW" data-placeholder="请选择是否展示" style="vertical-align:top;width: 20%;">
 										<option value="0" <c:if test="${pd.IS_SHOW=='0'}">selected="selected"</c:if>>展示</option>
 										<option value="1" <c:if test="${pd.IS_SHOW=='1'}">selected="selected"</c:if>>不展示</option>
 									</select>

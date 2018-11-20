@@ -2,59 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="GoodsTypeMapper">
 	
+	<resultMap type="goodsType" id="goodstypeResultMap">
+		<id column="GOODS_TYPE_ID" property="GOODS_TYPE_ID"/>
+		<result column="TYPE_NAME" property="TYPE_NAME"/>
+		<result column="PARENT_ID" property="PARENT_ID"/>
+	</resultMap>
+	
 	<!--表名 -->
 	<sql id="tableName">
-		zlp_goods_type
+		ZLP_GOODS_TYPE
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		GOODSTYPE_ID,	
-		TYPE_NAME,	
-		TYPE_IMAGE,	
-		SEQENCE,	
-		CREATE_DATE,	
+		STATUS,	
 		CREATE_USER,	
-		UPDATE_DATE,	
-		UPDATE_USER,	
-		DELETE_STATUS
+		CREATE_DATE,	
+		MODIFY_USER,	
+		MODIFY_DATE,	
+		DESCRIPTION,	
+		GOODS_TYPE_ID,
+		PARENT_ID,
+		TYPE_NAME,
+		ORDER_BY,
+		PARENT_ID_LIST
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{GOODSTYPE_ID},	
-		#{TYPE_NAME},	
-		#{TYPE_IMAGE},	
-		#{SEQENCE},	
-		#{CREATE_DATE},	
+		#{STATUS},	
 		#{CREATE_USER},	
-		#{UPDATE_DATE},	
-		#{UPDATE_USER},	
-		#{DELETE_STATUS}
+		#{CREATE_DATE},	
+		#{MODIFY_USER},	
+		#{MODIFY_DATE},	
+		#{DESCRIPTION},	
+		#{GOODS_TYPE_ID},
+		#{PARENT_ID},
+		#{TYPE_NAME},
+		#{ORDER_BY},
+		#{PARENT_ID_LIST}
 	</sql>
 	
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
+	<selectKey keyProperty="GOODS_TYPE_ID" order="AFTER" resultType="java.lang.Long">
+			select LAST_INSERT_ID()
+		</selectKey>
 		insert into 
 	<include refid="tableName"></include>
-		(	
-			TYPE_NAME,	
-			TYPE_IMAGE,	
-			SEQENCE,	
-			CREATE_DATE,	
-			CREATE_USER,	
-			UPDATE_DATE,	
-			UPDATE_USER,	
-			DELETE_STATUS
+		(
+	<include refid="Field"></include>
 		) values (
-			#{TYPE_NAME},	
-			#{TYPE_IMAGE},	
-			#{SEQENCE},	
-			#{CREATE_DATE},	
-			#{CREATE_USER},	
-			#{UPDATE_DATE},	
-			#{UPDATE_USER},	
-			#{DELETE_STATUS}
+	<include refid="FieldValue"></include>
 		)
 	</insert>
 	
@@ -63,7 +62,17 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			GOODSTYPE_ID = #{GOODSTYPE_ID}
+			GOODS_TYPE_ID = #{GOODS_TYPE_ID}
+	</delete>
+	<!-- 假删除-->
+	<delete id="fakeDelete" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set 
+			STATUS = '2',
+		GOODS_TYPE_ID = GOODS_TYPE_ID
+		where 
+		GOODS_TYPE_ID = #{GOODS_TYPE_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -71,14 +80,36 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			TYPE_NAME = #{TYPE_NAME},
-			TYPE_IMAGE = #{TYPE_IMAGE},
-			SEQENCE = #{SEQENCE},
-			UPDATE_DATE = #{UPDATE_DATE},
-			UPDATE_USER = #{UPDATE_USER},
-		GOODSTYPE_ID = GOODSTYPE_ID
+			<if test="STATUS !=null and STATUS !=''">
+			STATUS = #{STATUS},
+			</if>
+			<if test="CREATE_USER !=null and CREATE_USER !=''">
+			CREATE_USER = #{CREATE_USER},
+			</if>
+			<if test="CREATE_DATE !=null">
+			CREATE_DATE = #{CREATE_DATE},
+			</if>
+			<if test="MODIFY_USER !=null and MODIFY_USER !=''">
+			MODIFY_USER = #{MODIFY_USER},
+			</if>
+			<if test="MODIFY_DATE !=null">
+			MODIFY_DATE = #{MODIFY_DATE},
+			</if>
+			<if test="DESCRIPTION !=null and DESCRIPTION !=''">
+			DESCRIPTION = #{DESCRIPTION},
+			</if>
+			<if test="TYPE_NAME !=null and TYPE_NAME !=''">
+				TYPE_NAME = #{TYPE_NAME},
+			</if>
+			<if test="ORDER_BY !=null">
+			ORDER_BY = #{ORDER_BY},
+			</if>
+			<if test="PARENT_ID_LIST !=null and PARENT_ID_LIST!=''">
+			PARENT_ID_LIST = #{PARENT_ID_LIST},
+			</if>
+		GOODS_TYPE_ID = GOODS_TYPE_ID
 		where 
-		GOODSTYPE_ID = #{GOODSTYPE_ID}
+		GOODS_TYPE_ID = #{GOODS_TYPE_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -88,89 +119,90 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			GOODSTYPE_ID = #{GOODSTYPE_ID}
+			GOODS_TYPE_ID = #{GOODS_TYPE_ID}
 	</select>
 	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select
-		t.GOODSTYPE_ID,	
-		t.TYPE_NAME,	
-		t.TYPE_IMAGE,	
-		t.SEQENCE,	
-		t.CREATE_DATE,	
-		t.CREATE_USER,	
-		t.UPDATE_DATE,	
-		t.UPDATE_USER,	
-		t.DELETE_STATUS,
-		p.PATH
-		from
-		zlp_goods_type t
-		LEFT JOIN tb_pictures p on t.TYPE_IMAGE=p.PICTURES_ID
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
 		where 1=1
+		<if test="pd.GOODS_TYPE_ID!= null and pd.GOODS_TYPE_ID != ''"><!-- 检索 -->
+		and PARENT_ID = #{pd.GOODS_TYPE_ID}
+		</if>
+		and STATUS &lt;&gt;'2'
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-					t.TYPE_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+				<!--	根据需求自己加检索条件-->
+			TYPE_NAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+					 or 
+					DESCRIPTION LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
+				
 				)
 		</if>
-		and DELETE_STATUS !=1 order by t.SEQENCE ASC
+		order by ORDER_BY ASC,CREATE_DATE DESC 
+	</select>
+	
+	<!-- 通过ID获取其子级列表 -->
+	<select id="listByParentId" parameterType="String" resultMap="goodstypeResultMap">
+		select 
+			STATUS,	
+			CREATE_USER,	
+			CREATE_DATE,	
+			MODIFY_USER,	
+			MODIFY_DATE,	
+			DESCRIPTION,	
+			GOODS_TYPE_ID,
+			PARENT_ID,
+			CONCAT(TYPE_NAME,'(ID:',GOODS_TYPE_ID,')') as TYPE_NAME,
+			ORDER_BY,
+			PARENT_ID_LIST
+		from 
+		<include refid="tableName"></include>
+		where 
+			PARENT_ID = #{parentId} and STATUS &lt;&gt; '2' order by ORDER_BY ASC,CREATE_DATE DESC 
 	</select>
 	
 	<!-- 列表(全部) -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select
-			t.GOODSTYPE_ID,	
-			t.TYPE_NAME,	
-			t.TYPE_IMAGE,	
-			t.SEQENCE,	
-			t.CREATE_DATE,	
-			t.CREATE_USER,	
-			t.UPDATE_DATE,	
-			t.UPDATE_USER,	
-			t.DELETE_STATUS,
-			p.PATH
+		<include refid="Field"></include>
 		from 
-			zlp_goods_type t
-			LEFT JOIN tb_pictures p on t.TYPE_IMAGE=p.PICTURES_ID
-		where 1=1
-			and DELETE_STATUS !=1 order by t.SEQENCE ASC
+		<include refid="tableName"></include>
 	</select>
 	
-	<!-- 批量删除 -->
-	<delete id="deleteAll" parameterType="String">
-		delete from
+	<!-- 通过ID获取数据 -->
+	<select id="findByParentId" parameterType="String" resultType="pd">
+		select 
+		GOODS_TYPE_ID,
+		PARENT_ID,
+		TYPE_NAME
+		from 
 		<include refid="tableName"></include>
 		where 
-			GOODSTYPE_ID in
-		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-                 #{item}
-		</foreach>
-	</delete>
-	
-	<!-- 删除 -->
-	<update id="deleteType" parameterType="pd">
-		update
+			PARENT_ID = #{parentId}
+	</select>
+	<!-- 查出子孙列表 -->
+	<select id="findGrandchilds" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
 		<include refid="tableName"></include>
-		set 
-			DELETE_STATUS = 1,
-			GOODSTYPE_ID = GOODSTYPE_ID
 		where 
-		GOODSTYPE_ID = #{GOODSTYPE_ID}
-	</update>
+			PARENT_ID_LIST LIKE CONCAT(CONCAT('%,', #{PARENT_ID_LIST}),',%') AND PARENT_ID &lt;&gt; '0' and STATUS = '1'
+	</select>
 	
-	<!-- 批量删除 -->
-	<update id="deleteAllType" parameterType="String">
-		update 
-		<include refid="tableName"></include>
-		set 
-			DELETE_STATUS = 1,
-			GOODSTYPE_ID = GOODSTYPE_ID
-		where 
-			GOODSTYPE_ID in
-		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-                 #{item}
-		</foreach>
-	</update>
-	
+	<!-- 列出所有子孙ID列表 -->
+	<select id="listAllGrandchildrenIds" parameterType="pd" resultType="int">
+		SELECT
+			t.GOODS_TYPE_ID
+		FROM
+			szjm_goods_type t
+		WHERE
+			t.PARENT_ID_LIST LIKE CONCAT(CONCAT('%,', #{PARENT_ID}),',%')
+		AND t.PARENT_ID &lt;&gt; '0'
+	</select>
 </mapper>

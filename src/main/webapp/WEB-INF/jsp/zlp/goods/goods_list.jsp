@@ -45,11 +45,11 @@
 <!-- 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastStart" id="lastStart"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="开始日期" title="开始日期"/></td>
 								<td style="padding-left:2px;"><input class="span10 date-picker" name="lastEnd" name="lastEnd"  value="" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:88px;" placeholder="结束日期" title="结束日期"/></td> -->
 								<td style="vertical-align:top;padding-left:2px;">
-									<select class="chosen-select form-control" name="GOODSTYPE_ID" id="GOODSTYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 130px;">
+									<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 150px;">
 										<option value=""></option>
 										<option value="">全部</option>
 										<c:forEach items="${typeList}" var="var" varStatus="vs">
-											<option value="${var.GOODSTYPE_ID}" <c:if test="${var.GOODSTYPE_ID ==pd.GOODSTYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
+											<option value="${var.GOODS_TYPE_ID}" <c:if test="${var.GOODS_TYPE_ID ==pd.GOODS_TYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
 										</c:forEach>
 									  </select>
 								</td>
@@ -59,12 +59,8 @@
 										<option value="">全部</option>
 										<option value="0" <c:if test="${ '0' ==pd.GOODS_POSITION}">selected="selected"</c:if>>普通商品</option>
 										<option value="1" <c:if test="${ 1 ==pd.GOODS_POSITION}">selected="selected"</c:if>>积分商品</option>
-										<option value="2" <c:if test="${ 2  ==pd.GOODS_POSITION}">selected="selected"</c:if>>免费送蛋糕商品</option>
-										<option value="3" <c:if test="${ 3  ==pd.GOODS_POSITION}">selected="selected"</c:if>>抽奖商品</option>
-										<option value="4" <c:if test="${ 4  ==pd.GOODS_POSITION}">selected="selected"</c:if>>代理商礼包</option>
-										<option value="5" <c:if test="${ 5  ==pd.GOODS_POSITION}">selected="selected"</c:if>>VIP礼包</option>
-										<option value="6" <c:if test="${ 6  ==pd.GOODS_POSITION}">selected="selected"</c:if>>合伙人礼包</option>
-										<option value="7" <c:if test="${ 7  ==pd.GOODS_POSITION}">selected="selected"</c:if>>付费会员礼包</option>
+										<option value="2" <c:if test="${ 2  ==pd.GOODS_POSITION}">selected="selected"</c:if>>礼品定制</option>
+										<option value="3" <c:if test="${ 3  ==pd.GOODS_POSITION}">selected="selected"</c:if>>特价礼品</option>
 									  </select>
 								</td>
 								<c:if test="${QX.cha == 1 }">
@@ -91,7 +87,6 @@
 									<th class="center">商品小图</th>
 									<th class="center">商品原价</th>
 									<th class="center">商品现价</th>
-									<th class="center">商品折扣</th>
 									<th class="center">礼豆抵扣金额</th>
 									<th class="center">所需礼豆</th>
 									<th class="center">销量</th>
@@ -123,12 +118,8 @@
 											<td class='center'>
 												<c:if test="${var.GOODS_POSITION == 0}">普通商品</c:if>
 												<c:if test="${var.GOODS_POSITION == 1}">积分商品</c:if>
-												<c:if test="${var.GOODS_POSITION == 2}">生日那天免费送蛋糕商品</c:if>
-												<c:if test="${var.GOODS_POSITION == 3}">抽奖商品</c:if>											<c:if test="${var.IS_SHOW == 0}">不展示</c:if>
-												<c:if test="${var.GOODS_POSITION == 4}">代理商礼包</c:if>
-												<c:if test="${var.GOODS_POSITION == 5}">VIP礼包</c:if>
-												<c:if test="${var.GOODS_POSITION == 6}">合伙人礼包</c:if>
-												<c:if test="${var.GOODS_POSITION == 7}">付费会员礼包</c:if>
+												<c:if test="${var.GOODS_POSITION == 2}">礼品定制</c:if>
+												<c:if test="${var.GOODS_POSITION == 3}">特价礼品</c:if>
 											</td>
 											<td class='center'>
 												<c:if test="${var.IS_BROADCAST=='0'}">不轮播</c:if>
@@ -143,7 +134,6 @@
 											</td>
 											<td class='center'>${var.ORIGINAL_PRICE}</td>
 											<td class='center'>${var.CURRENT_PRICE}</td>
-											<td class='center'>${var.DISCOUNT}%</td>
 											<td class='center'>${var.DEDUCTION_MONEY}</td>
 											<td class='center'>${var.INTEGRATION}</td>
 											<td class='center'>${var.SALES_VOLUME}</td>
