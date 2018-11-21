@@ -101,7 +101,7 @@
 						<div class="main_input_box">
 							<span class="add-on bg_ly">
 							<i><img height="37" src="static/login/suo.png" /></i>
-							</span><input type="password" name="password" id="password" placeholder="请输入密码" class="keypad" keypadMode="full" allowKeyboard="true" value=""/>
+							</span><input type="password" name="password" id="password" placeholder="请输入密码" <%--class="keypad" keypadMode="full" allowKeyboard="true"--%> value=""/>
 						</div>
 					</div>
 				</div>
