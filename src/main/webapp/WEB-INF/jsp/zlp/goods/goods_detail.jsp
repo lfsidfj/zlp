@@ -21,6 +21,11 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 </script>
 <!--提示框-->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
+	<link href="plugins/ueditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="plugins/ueditor/third-party/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="plugins/ueditor/umeditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="plugins/ueditor/umeditor.min.js"></script>
+	<script type="text/javascript" src="plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
 </head>
 <body class="no-skin">
 
@@ -165,7 +170,8 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 										  <table class="table table-striped table-bordered table-hover" style="margin-top:5px;">
 											  <tr>
 												  <td style="width:75px;text-align: right;padding-top: 13px;">商品详情:</td>
-												  <script id="editor1" name="GOODS_DETAILS" type="text/plain" style="width:89%;height:350px;"></script></tr>
+												  <td>
+													  <script id="editor1"  type="text/plain" style="width:590px;height:450px;"></script>
 												  </td>
 											  </tr>
 											  <tr>
@@ -208,10 +214,6 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 		<!-- /.main-content -->
 	</div>
 	<!-- /.main-container -->
-	<!-- 百度富文本编辑框-->
-	<script type="text/javascript" charset="utf-8">window.UEDITOR_HOME_URL = "<%=path%>/plugins/ueditor/";</script>
-	<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="plugins/ueditor/ueditor.all.js"></script>
 	<!-- basic scripts -->
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>
@@ -403,12 +405,8 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 
             var desc2='${pd.GOODS_DETAILS}';
 
-            UE.getEditor('editor1');
-            //判断ueditor 编辑器是否创建成功
-            UE.getEditor('editor1').addListener("ready", function () {
-                // editor准备好之后才可以使用
-                UE.getEditor('editor1').setContent(desc2);
-            });
+            UM.getEditor('editor1');
+            UM.getEditor('editor1').setContent(desc2);
         }
 
         //start

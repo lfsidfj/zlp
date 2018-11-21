@@ -115,7 +115,7 @@
 									<!-- <th class="center">修改时间</th>
 									<th class="center">修改人</th>
 									<th class="center">删除状态</th> -->
-									<th class="center">操作</th>
+									<th class="center" style="width: 240px;">操作</th>
 								</tr>
 							</thead>
 													
@@ -169,8 +169,8 @@
 												<div class="hidden-sm hidden-xs btn-group">
 													<c:if test="${QX.edit == 1 }">
 													<a class="btn btn-xs btn-success" title="编辑" onclick="edit('${var.GOODS_ID}');">编辑</a>
-													<a class="btn btn-xs btn-success" style="margin-left: 5px;margin-right:5px;" title="编辑轮播图" onclick="editPictures('${var.GOODS_ID}');">编辑轮播图</a>
-													<a class="btn btn-xs btn-success" style="margin-left: 5px;margin-right:5px;" title="编辑SKU" onclick="editSpec('${var.GOODS_ID}');">编辑SKU</a>
+													<a class="btn btn-xs btn-success" style="margin-left: 5px;" title="编辑轮播图" onclick="editPictures('${var.GOODS_ID}');">编辑轮播图</a>
+													<a class="btn btn-xs btn-success" style="margin-left: 5px;" title="编辑SKU" onclick="editSpec('${var.GOODS_ID}');">编辑SKU</a>
 													</c:if>
 													<c:if test="${QX.del == 1 }">
 													<a class="btn btn-xs btn-danger" onclick="del('${var.GOODS_ID}');">删除</a>

@@ -310,7 +310,6 @@ public class AppOrderController extends BaseAppController {
         orderPd.put("RECEIVER", address.get("NAME").toString()); // 收货人姓名
         orderPd.put("PHONE_NUMBER", address.get("PHONE_NUMBER").toString()); // 收货人联系电话
         orderPd.put("ORDER_STATUS", 0); // 订单状态
-        orderPd.put("PAY_STATUS", 0); // 支付状态
         orderPd.put("OUT_ORDER_ID", OUT_ORDER_ID); // 支付编号
         orderPd.put("USER_ID", user_id); // 用户编号
         // 支付方式
@@ -532,7 +531,6 @@ public class AppOrderController extends BaseAppController {
             orderPd.put("RECEIVER", address.get("NAME").toString()); // 收货人姓名
             orderPd.put("PHONE_NUMBER", address.get("PHONE_NUMBER").toString()); // 收货人联系电话
             orderPd.put("ORDER_STATUS", 1); // 订单状态
-            orderPd.put("PAY_STATUS", 1); // 支付状态
             orderPd.put("OUT_ORDER_ID", 0); // 支付编号
             orderPd.put("USER_ID", user_id); // 用户编号
             orderPd.put("TOTAL_AMOUNT", 0); // 订单总金额

@@ -97,14 +97,24 @@ public class OrderService implements OrderManager {
 	}
 
 	/**
-	 * 移动端订单列表
-	 * 
+	 * 定制列表
 	 * @param page
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PageData> appOrdersList(Page page) throws Exception {
-		return (List<PageData>) dao.findForList("OrderMapper.datalistPage1",
+	public List<PageData> customList(Page page) throws Exception {
+		return (List<PageData>) dao.findForList("OrderMapper.customlistPage",
+				page);
+	}
+
+	/**
+	 * 积分列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> integralList(Page page) throws Exception {
+		return (List<PageData>) dao.findForList("OrderMapper.integrallistPage",
 				page);
 	}
 
@@ -177,7 +187,6 @@ public class OrderService implements OrderManager {
 		// 如果为待支付
 		if (order != null && "0".equals(order.get("ORDER_STATUS").toString())) {
 			order.put("ORDER_STATUS", 1);
-			order.put("PAY_STATUS", 1);
 			edit(order);
 			// 分润
 			financeService.shareMoney(order);

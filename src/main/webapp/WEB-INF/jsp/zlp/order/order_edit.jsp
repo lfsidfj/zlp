@@ -92,10 +92,6 @@
 								<td><input type="number" name="ORDER_STATUS" id="ORDER_STATUS" value="${pd.ORDER_STATUS}" maxlength="32" placeholder="这里输入订单状态" title="订单状态" style="width:98%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">支付状态:</td>
-								<td><input type="number" name="PAY_STATUS" id="PAY_STATUS" value="${pd.PAY_STATUS}" maxlength="32" placeholder="这里输入支付状态" title="支付状态" style="width:98%;"/></td>
-							</tr>
-							<tr>
 								<td style="width:75px;text-align: right;padding-top: 13px;">支付编号:</td>
 								<td><input type="text" name="OUT_ORDER_ID" id="OUT_ORDER_ID" value="${pd.OUT_ORDER_ID}" maxlength="255" placeholder="这里输入支付编号" title="支付编号" style="width:98%;"/></td>
 							</tr>
@@ -294,16 +290,6 @@
 		            time:2
 		        });
 				$("#ORDER_STATUS").focus();
-			return false;
-			}
-			if($("#PAY_STATUS").val()==""){
-				$("#PAY_STATUS").tips({
-					side:3,
-		            msg:'请输入支付状态',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#PAY_STATUS").focus();
 			return false;
 			}
 			if($("#OUT_ORDER_ID").val()==""){

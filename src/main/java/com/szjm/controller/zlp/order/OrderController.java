@@ -122,13 +122,12 @@ public class OrderController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		pd.put("DELETE_STATUS", 0);
+		pd.put("ORDER_POSITION",1); // 普通商品订单
 		page.setPd(pd);
 		List<PageData>	varList = orderService.list(page);	//列出Order列表
-		List<PageData> expresscompanyList=expresscompanyService.listAll(pd);
-		mv.setViewName("zlp/order/order_list");
+		mv.setViewName("zlp/order/normalorder/order_list");
 		mv.addObject("varList", varList);
 		mv.addObject("pd", pd);
-		mv.addObject("expresscompanyList", expresscompanyList);
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -142,7 +141,7 @@ public class OrderController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		mv.setViewName("zlp/order/order_edit");
+		mv.setViewName("zlp/order/normalorder/order_edit");
 		mv.addObject("msg", "save");
 		mv.addObject("pd", pd);
 		return mv;
@@ -158,7 +157,7 @@ public class OrderController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		pd = orderService.findById(pd);	//根据ID读取
-		mv.setViewName("zlp/order/order_edit");
+		mv.setViewName("zlp/order/normalorder/order_edit");
 		mv.addObject("msg", "edit");
 		mv.addObject("pd", pd);
 		return mv;
@@ -176,7 +175,7 @@ public class OrderController extends BaseController {
 		PageData pdC = new PageData();
 		pdC.put("ORDER_ID", pd.get("ORDER_ID"));
 		List<PageData> cartList=cartService.listAllCartAndGoods(pdC);
-		mv.setViewName("zlp/order/order_information");
+		mv.setViewName("zlp/order/normalorder/order_information");
 		mv.addObject("msg", "shipments");
 		mv.addObject("pd", pd);
 		mv.addObject("cartList", cartList);
@@ -220,7 +219,7 @@ public class OrderController extends BaseController {
 			mv.addObject("list", list);
 			mv.addObject("json", json.get("Traces"));
 		}
-		mv.setViewName("zlp/order/order_logistics");
+		mv.setViewName("zlp/order/normalorder/order_logistics");
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
@@ -235,7 +234,7 @@ public class OrderController extends BaseController {
 		pd = this.getPageData();
 		List<PageData> expresscompanyList=expresscompanyService.listAll(pd);
 		pd = orderService.findById(pd);	//根据ID读取
-		mv.setViewName("zlp/order/order_shipments");
+		mv.setViewName("zlp/order/normalorder/order_shipments");
 		mv.addObject("msg", "shipments");
 		mv.addObject("pd", pd);
 		mv.addObject("expresscompanyList", expresscompanyList);
@@ -370,17 +369,6 @@ public class OrderController extends BaseController {
 				}
 			}else{
 					vpd.put("var11","");
-			}
-			if(varOList.get(i).get("PAY_STATUS")!=null){
-				String PAY_STATUS = varOList.get(i).get("PAY_STATUS").toString();
-				if("0".equals(PAY_STATUS)){
-					vpd.put("var12","未支付");	    //12
-				}
-				if("1".equals(PAY_STATUS)){
-					vpd.put("var12","已支付");	    //12
-				}
-			}else{
-				vpd.put("var12","");
 			}
 			vpd.put("var13", varOList.get(i).get("OUT_ORDER_ID")== null ?"":varOList.get(i).get("OUT_ORDER_ID").toString());	//1
 			vpd.put("var14", varOList.get(i).get("USER_ID")== null ?"":varOList.get(i).get("USER_ID").toString());	//1

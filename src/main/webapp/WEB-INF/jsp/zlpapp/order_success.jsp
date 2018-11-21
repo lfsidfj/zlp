@@ -272,7 +272,7 @@
 							<c:if test="${pd.PAY_WAY !='3' }"><span class="t-first" id="ru_amount0">¥${pd.REAL_PAY_AMOUNT }</span></c:if>
 						</p>
 					</section>
-					<c:if test="${pd.PAY_STATUS =='0' }">
+					<c:if test="${pd.ORDER_STATUS =='0' }">
 						<section class="m-top10">
 							<ul>
 								<li class="dis-box padding-all-n m-top1px b-color-f ">
@@ -312,10 +312,10 @@
 				id="store_id" name="store_id" value="0" type="hidden"> <span
 				class="box-flex t-remark"> <em class="t-first" id="amount"></em></span>
 			<div>
-				<c:if test="${pd.PAY_STATUS =='1' }">
+				<c:if test="${pd.ORDER_STATUS =='1' }">
 					<div type="button" class="btn-submit" onclick="submit('${pd.ORDER_ID }');">查看物流</div>
 				</c:if>
-				<c:if test="${pd.PAY_STATUS =='0' }">
+				<c:if test="${pd.ORDER_STATUS =='0' }">
 					<div type="button" class="btn-submit" onclick="submitOrder();">立即支付</div>
 				</c:if>
 			</div>

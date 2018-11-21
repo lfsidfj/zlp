@@ -52,8 +52,8 @@
 								<td><input type="number" name="GOODS_INVENTORY" id="GOODS_INVENTORY" value="${pd.GOODS_INVENTORY}" maxlength="32" placeholder="这里输入商品库存" title="商品库存" style="width:30%;"/></td>
 							</tr>
 							<tr>
-								<td style="width:75px;text-align: right;padding-top: 13px;">所需礼豆:</td>
-								<td><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需礼豆" title="所需礼豆" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
+								<td style="width:75px;text-align: right;padding-top: 13px;">所需积分:</td>
+								<td><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需积分" title="所需积分" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
 							</tr>
 							<tr>
 								<td style="text-align: center;" colspan="10">
@@ -131,7 +131,7 @@
 			if($("#INTEGRATION").val()==""){
 				$("#INTEGRATION").tips({
 					side:3,
-		            msg:'请输入所需礼豆',
+		            msg:'请输入所需积分',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -140,7 +140,7 @@
 			}else if(parseInt($("#INTEGRATION").val())<0){
 				$("#INTEGRATION").tips({
 						side:3,
-			            msg:'请输入正确所需礼豆',
+			            msg:'请输入正确所需积分',
 			            bg:'#AE81FF',
 			            time:2
 			        });

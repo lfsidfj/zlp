@@ -71,7 +71,7 @@
 									<th class="center">商品规格</th>
 									<th class="center">商品价格</th>
 									<th class="center">商品库存</th>
-									<th class="center">所需礼豆</th>
+									<th class="center">所需积分</th>
 									<th class="center">操作</th>
 								</tr>
 							</thead>

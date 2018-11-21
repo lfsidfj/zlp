@@ -31,16 +31,24 @@ public interface OrderManager{
 	 */
 	public void edit(PageData pd)throws Exception;
 
-	/**列表
+	/**普通订单列表
 	 * @param page
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
-	/**移动端订单列表
+
+	/**定制订单列表
 	 * @param page
 	 * @throws Exception
 	 */
-	public List<PageData> appOrdersList(Page page)throws Exception;
+	public List<PageData> customList(Page page)throws Exception;
+
+	/**积分订单列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> integralList(Page page)throws Exception;
+
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception
