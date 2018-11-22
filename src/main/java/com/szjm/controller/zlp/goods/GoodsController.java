@@ -155,38 +155,50 @@ public class GoodsController extends BaseController {
 				.toString() : "";
 		String[] ids = checkIds.split(",");
 
+
+		if(isEditSku(pd,ids,checkIds)){
+			// 保存新的商品规格
+			for (String sid : ids) {
+				if (!sid.equals("")) {
+					PageData specs = new PageData();
+					specs.put("GOODS_ID", pd.get("GOODS_ID").toString());
+					specs.put("SPEC_ID", Integer.parseInt(sid));
+					goodsspecService.save(specs);
+				}
+			}
+		}
+
+		mv.addObject("msg", "success");
+		mv.setViewName("save_result");
+		return mv;
+	}
+
+	/**
+	 * 是否修改商品规格
+	 * */
+	private boolean isEditSku(PageData pd,String[] ids,String checkIds) throws Exception{
 		// 之前商品规格列表
 		List<PageData> specList = goodsspecService.listGoodsId(pd);
 
 		// 修改过商品规格，删除商品规格
 		String editIds = "";
 		if (ids.length != specList.size()) { // 修改了商品规格，删除之前的商品SKU
-			goodsskuService.deleteByGoodsId(pd); // 删除之前的商品SKU
+			goodsspecService.deleteByGoodsId(pd); // 通过商品ID删除规格
+			goodsskuService.deleteByGoodsId(pd); // 通过商品ID删除SKU
+			return true;
 		} else {
 			for (PageData before : specList) {
 				editIds = editIds + before.get("SPEC_ID").toString() + ",";
 			}
 			checkIds = checkIds + ",";
-			if (!editIds.equals(checkIds)) { // 修改了商品规格，删除之前的商品SKU
-				goodsskuService.deleteByGoodsId(pd); // 删除之前的商品SKU
+			if (editIds.equals(checkIds)) {  //未修改商品规格
+				return false;
+			}else {// 修改了商品规格，删除之前的商品SKU
+				goodsspecService.deleteByGoodsId(pd); // 通过商品ID删除规格
+				goodsskuService.deleteByGoodsId(pd); // 通过商品ID删除SKU
+				return true;
 			}
 		}
-
-		// 删除之前商品规格
-		goodsspecService.deleteByGoodsId(pd);
-
-		// 保存新的商品规格
-		for (String sid : ids) {
-			if (!sid.equals("")) {
-				PageData specs = new PageData();
-				specs.put("GOODS_ID", pd.get("GOODS_ID").toString());
-				specs.put("SPEC_ID", Integer.parseInt(sid));
-				goodsspecService.save(specs);
-			}
-		}
-		mv.addObject("msg", "success");
-		mv.setViewName("save_result");
-		return mv;
 	}
 
 	/**

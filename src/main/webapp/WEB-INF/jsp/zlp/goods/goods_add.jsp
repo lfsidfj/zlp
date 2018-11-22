@@ -110,11 +110,11 @@
 							</tr>
 							<tr id="neet_current" >
 								<td style="width:75px;text-align: right;padding-top: 13px;">商品现价:</td>
-								<td><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
+								<td><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/></td>
 							</tr>
 							<tr id="neet_deduction">
 								<td style="width:75px;text-align: right;padding-top: 13px;">积分抵扣金额:</td>
-								<td><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入积分抵扣金额" title="积分抵扣金额" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
+								<td><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入积分抵扣金额" title="积分抵扣金额" style="width:30%;"/></td>
 							</tr>
 							<tr id="neet_integration">
 								<td style="width:75px;text-align: right;padding-top: 13px;">所需积分:</td>

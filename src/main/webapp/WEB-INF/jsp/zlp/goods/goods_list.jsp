@@ -100,7 +100,6 @@
 									<th class="center">商品类目</th>
 									<th class="center">商品名称</th>
 									<th class="center">商品类型</th>
-									<th class="center">首页轮播</th>
 									<th class="center">首页展示</th>
 									<th class="center">商品小图</th>
 									<th class="center">商品原价</th>
@@ -138,10 +137,6 @@
 												<c:if test="${var.GOODS_POSITION == 1}">积分商品</c:if>
 												<c:if test="${var.GOODS_POSITION == 2}">礼品定制</c:if>
 												<c:if test="${var.GOODS_POSITION == 3}">特价礼品</c:if>
-											</td>
-											<td class='center'>
-												<c:if test="${var.IS_BROADCAST=='0'}">不轮播</c:if>
-												<c:if test="${var.IS_BROADCAST=='1'}">轮播</c:if>
 											</td>
 											<td class='center'>
 												<c:if test="${var.IS_INDEX=='0'}">不展示</c:if>
@@ -346,7 +341,7 @@
 			 diag.Drag=true;
 			 diag.Title ="新增";
 			 diag.URL = '<%=basePath%>goods/goAdd.do';
-			 diag.Width = 750;
+			 diag.Width = 800;
 			 diag.Height = 650;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮
@@ -385,7 +380,7 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>goods/goEdit.do?GOODS_ID='+Id;
-			 diag.Width = 750;
+			 diag.Width = 800;
 			 diag.Height = 650;
 			 diag.Modal = true;				//有无遮罩窗口
 			 diag. ShowMaxButton = true;	//最大化按钮

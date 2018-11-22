@@ -54,17 +54,15 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品类目:</td>
 												<td>
-													<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width: 220px;">
+													<select class="chosen-select form-control" name="GOODS_TYPE_ID" id="GOODS_TYPE_ID" data-placeholder="请选择商品类目" style="vertical-align:top;width:53%;">
 														<c:forEach items="${typeList}" var="var" varStatus="vs">
 															<option value="${var.GOODS_TYPE_ID}" <c:if test="${pd.GOODS_TYPE_ID==var.GOODS_TYPE_ID}">selected="selected"</c:if>>${var.TYPE_NAME}</option>
 														</c:forEach>
 													</select>
 												</td>
-											</tr>
-											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品品牌:</td>
 												<td>
-													<select class="chosen-select form-control" name="BRAND_ID" id="BRAND_ID" data-placeholder="请选择商品品牌" style="vertical-align:top;width: 150px;">
+													<select class="chosen-select form-control" name="BRAND_ID" id="BRAND_ID" data-placeholder="请选择商品品牌" style="vertical-align:top;width:80%;">
 														<c:forEach items="${brandList}" var="var" varStatus="vs">
 															<option value="${var.BRAND_ID}" <c:if test="${var.BRAND_ID ==pd.BRAND_ID}">selected="selected"</c:if>>${var.BRAND_NAME}</option>
 														</c:forEach>
@@ -73,8 +71,8 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 											</tr>
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品活动:</td>
-												<td>
-													<select class="chosen-select form-control" name="ACTIVITY_ID" id="ACTIVITY_ID" data-placeholder="请选择商品活动" style="vertical-align:top;width: 150px;">
+												<td colspan="3">
+													<select class="chosen-select form-control" name="ACTIVITY_ID" id="ACTIVITY_ID" data-placeholder="请选择商品活动" style="vertical-align:top;width:30%;">
 														<c:forEach items="${activityList}" var="var" varStatus="vs">
 															<option value="${var.ACTIVITY_ID}" <c:if test="${var.ACTIVITY_ID ==pd.ACTIVITY_ID}">selected="selected"</c:if>>${var.ACTIVITY_NAME}</option>
 														</c:forEach>
@@ -83,18 +81,22 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 											</tr>
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品名称:</td>
-												<td><input type="text" name="GOODS_NAME" id="GOODS_NAME" value="${pd.GOODS_NAME}" maxlength="255" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
+												<td colspan="3"><input type="text" name="GOODS_NAME" id="GOODS_NAME" value="${pd.GOODS_NAME}" maxlength="255" placeholder="这里输入商品名称" title="商品名称" style="width:98%;"/></td>
+											</tr>
+											<tr>
+												<td style="width:75px;text-align: right;padding-top: 13px;">商品管关键词:</td>
+												<td colspan="3"><input type="text" name="KEYWORDS" id="KEYWORDS" value="${pd.KEYWORDS}" maxlength="32" placeholder="这里输入关键词（以,结尾）" title="关键词" style="width:98%;"/></td>
 											</tr>
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品小图:</td>
-												<td>
+												<td colspan="3">
 													<input  type="file" name="file" id="file" value="${pd.PICTURE_ID}" maxlength="255" placeholder="这里输入类目图片" title="类目图片" style="width:50%;"/>
 													<span style="color: red">建议上传图片大小为120x120像素，格式为jpg或png格式</span>
 												</td>
 											</tr>
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品规格:</td>
-												<td>
+												<td colspan="3">
 													<c:forEach items="${specList}" var="var" varStatus="vs">
 														<input style="margin-left: 10px;" type='checkbox' id='GOODS_SPEC' name='GOODS_SPEC'  value="${var.SPEC_ID}" <c:if test="${var.check=='ischeck'}">checked="checked"</c:if>/>&nbsp;&nbsp;${var.SPEC}
 													</c:forEach>
@@ -103,7 +105,7 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 											<c:if test="${msg=='save' }">
 												<tr>
 													<td style="width:75px;text-align: right;padding-top: 13px;">商品类型:</td>
-													<td>
+													<td colspan="3">
 														<select class="chosen-select form-control" name="GOODS_POSITION" id="GOODS_POSITION" data-placeholder="请选择商品类型" style="vertical-align:top;width: 220px;">
 															<option value="0" <c:if test="${pd.GOODS_POSITION=='0'}">selected="selected"</c:if>>普通商品</option>
 															<option value="1" <c:if test="${pd.GOODS_POSITION=='1'}">selected="selected"</c:if>>积分商品</option>
@@ -113,57 +115,63 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 													</td>
 												</tr>
 											</c:if>
-											<tr>
-												<td style="width:75px;text-align: right;padding-top: 13px;">是否首页轮播:</td>
-												<td>
-													<select class="chosen-select form-control" name="IS_BROADCAST" id="IS_BROADCAST" data-placeholder="请选择是否首页轮播" style="vertical-align:top;width: 220px;">
-														<option value="0" <c:if test="${pd.IS_BROADCAST=='0'}">selected="selected"</c:if>>不轮播</option>
-														<option value="1" <c:if test="${pd.IS_BROADCAST=='1'}">selected="selected"</c:if>>轮播</option>
-													</select>
-												</td>
+											<tr id="need_custom" <c:if test="${pd.GOODS_POSITION!='2'}">style="display: none"</c:if>>
+												<td style="width:76px;text-align: right;padding-top: 13px;">定制商品起定量:</td>
+												<td><input type="number"  name="QUANTITATIVE" id="QUANTITATIVE" value="${pd.QUANTITATIVE }"  style="width:90%" /></td>
+
+												<td style="width:76px;text-align: right;padding-top: 13px;">定制商品周期(天):</td>
+												<td><input type="number"  name="CUSTOM_TIME" id="CUSTOM_TIME" value="${pd.CUSTOM_TIME }"  style="width:90%" /></td>
 											</tr>
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">是否首页展示:</td>
 												<td>
-													<select class="chosen-select form-control" name="IS_INDEX" id="IS_INDEX" data-placeholder="请选择是否首页轮播" style="vertical-align:top;width: 220px;">
+													<select class="chosen-select form-control" name="IS_INDEX" id="IS_INDEX" data-placeholder="请选择是否首页展示" style="vertical-align:top;width:53%;">
 														<option value="0" <c:if test="${pd.IS_INDEX=='0'}">selected="selected"</c:if>>不展示</option>
 														<option value="1" <c:if test="${pd.IS_INDEX=='1'}">selected="selected"</c:if>>展示</option>
 													</select>
 												</td>
+												<td style="width:75px;text-align: right;padding-top: 13px;">是否上架:</td>
+												<td>
+													<select class="chosen-select form-control" name="IS_SHELVES" id="IS_SHELVES" data-placeholder="请选择是否上架" style="vertical-align:top;width:80%;">
+														<option value="0" <c:if test="${pd.IS_SHELVES=='0'}">selected="selected"</c:if>>上架</option>
+														<option value="1" <c:if test="${pd.IS_SHELVES=='1'}">selected="selected"</c:if>>不上架</option>
+													</select>
+												</td>
 											</tr>
-
 											<tr>
 												<td style="width:75px;text-align: right;padding-top: 13px;">商品原价:</td>
-												<td><input type="text" name="ORIGINAL_PRICE" id="ORIGINAL_PRICE" value="${pd.ORIGINAL_PRICE}" maxlength="10" placeholder="这里输入商品原价" title="商品原价" style="width:30%;"/></td>
-												</tr>
-												<tr id="neet_current" >
-													<td style="width:75px;text-align: right;padding-top: 13px;">商品现价:</td>
-													<td><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
-												</tr>
-												<tr id="neet_deduction">
-													<td style="width:75px;text-align: right;padding-top: 13px;">积分抵扣金额:</td>
-													<td><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入积分抵扣金额" title="积分抵扣金额" style="width:30%;"/>&nbsp;&nbsp;(仅普通商品 、代理商礼包、VIP礼包、合伙人礼包展示)</td>
-												</tr>
-												<tr id="neet_integration">
-													<td style="width:75px;text-align: right;padding-top: 13px;">所需积分:</td>
-													<td><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需积分" title="所需积分" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
-												</tr>
+												<td colspan="3"><input type="text" name="ORIGINAL_PRICE" id="ORIGINAL_PRICE" value="${pd.ORIGINAL_PRICE}" maxlength="10" placeholder="这里输入商品原价" title="商品原价" style="width:30%;"/></td>
+                                            </tr>
+                                            <tr id="neet_current" >
+                                                <td style="width:75px;text-align: right;padding-top: 13px;">商品现价:</td>
+                                                <td colspan="3"><input type="text" name="CURRENT_PRICE" id="CURRENT_PRICE" value="${pd.CURRENT_PRICE}" maxlength="10" placeholder="这里输入商品现价" title="商品现价" style="width:30%;"/></td>
+                                            </tr>
+                                            <tr id="neet_deduction">
+                                                <td style="width:75px;text-align: right;padding-top: 13px;">积分抵扣金额:</td>
+                                                <td colspan="3"><input type="text" name="DEDUCTION_MONEY" id="DEDUCTION_MONEY" value="${pd.DEDUCTION_MONEY}" maxlength="10" placeholder="这里输入积分抵扣金额" title="积分抵扣金额" style="width:30%;"/></td>
+                                            </tr>
+                                            <tr id="neet_integration">
+                                                <td style="width:75px;text-align: right;padding-top: 13px;">所需积分:</td>
+                                                <td colspan="3"><input type="number" name="INTEGRATION" id="INTEGRATION" value="${pd.INTEGRATION}" maxlength="32" placeholder="这里输入所需积分" title="所需积分" style="width:30%;"/>&nbsp;&nbsp;(仅积分商品展示)</td>
+                                            </tr>
 												<%-- <tr>
                                                     <td style="width:75px;text-align: right;padding-top: 13px;">销量:</td>
                                                     <td><input type="number" name="SALES_VOLUME" id="SALES_VOLUME" value="${pd.SALES_VOLUME}" maxlength="32" placeholder="这里输入销量" title="销量" style="width:98%;"/></td>
                                                 </tr> --%>
-												<tr>
-													<td style="width:75px;text-align: right;padding-top: 13px;">排序:</td>
-													<td><input type="number" name="SEQENCE" id="SEQENCE" value="${pd.SEQENCE}" maxlength="32" placeholder="这里输入排序" title="排序" style="width:98%;"/></td>
-												</tr>
-												<tr>
-													<td style="text-align: center;" colspan="10">
-														<a class="btn btn-mini btn-primary" onclick="saveGoods();">保存</a>
-														<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-													</td>
-												</tr>
+											<tr>
+												<td style="width:75px;text-align: right;padding-top: 13px;">排序:</td>
+												<td colspan="3"><input type="number" name="SEQENCE" id="SEQENCE" value="${pd.SEQENCE}" maxlength="32" placeholder="这里输入排序" title="排序" style="width:30%;"/></td>
+											</tr>
 
 										</table>
+										  <table class="center" style="width:100%" >
+											  <tr>
+												  <td style="text-align: center;" colspan="6">
+													  <a class="btn btn-mini btn-primary" onclick="saveGoods();">保存</a>
+													  <a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+												  </td>
+											  </tr>
+										  </table>
 									  </div>
 										<!--商品详情-->
 									  <div id="profile1" class="tab-pane">
@@ -171,7 +179,7 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 											  <tr>
 												  <td style="width:75px;text-align: right;padding-top: 13px;">商品详情:</td>
 												  <td>
-													  <script id="editor1"  type="text/plain" style="width:590px;height:450px;"></script>
+													  <script id="editor1"  type="text/plain" style="width:640px;height:450px;"></script>
 												  </td>
 											  </tr>
 											  <tr>
@@ -223,6 +231,16 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 	<script src="static/ace/js/ace/ace.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
+        $("#GOODS_POSITION").change(function(){
+            var options=$("#GOODS_POSITION option:selected").val();  //获取选中的项
+            if(options==2){    // 免费拿样
+                $("#need_custom").show();
+            }else{
+                $("#need_custom").hide();
+			}
+        });
+	</script>
+	<script type="text/javascript">
 		$(top.hangge());
 		$(document).ready(function(){
 			if("${pd.isCheck1 }" == "yes"){
@@ -236,7 +254,6 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 				$("#check2").attr("checked",false);
 			}
 		});
-
 	</script>
 	<script type="text/javascript">
 		$(top.hangge());
@@ -416,6 +433,5 @@ var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
         });
 
 	</script>
-
 </body>
 </html>
